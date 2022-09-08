@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Rahmath-001/cs_model/issues"
   },
-  "homepage": "https://github.com/Rahmath-001/cs_model#readme"
+  "homepage": "https://github.com/Rahmath-001/cs_model#readme",
+  "dependencies": {
+    "decrypt": "^0.0.1"
+  }
 }
