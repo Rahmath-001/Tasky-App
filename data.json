@@ -1,7 +1,22 @@
-{
+[
+  {
+    "user_id": "6a28mzZsCKESGTsc",
     "firstname": "Rahmathullah",
     "lastname": "Qaaemuddin",
-    "password": "rahmath123",
-    "password2": "rahmath123",
-    "phone": "+91 7730078806"
-}
+    "email": "rehamathullah7@gmail.com",
+    "password": "$2b$12$r9yKSXag/ijIL7tYML66g.a3QTdaHdstA20FTwlMvlfKazHB7eBue",
+    "address": "moghalpura",
+    "phone": "+91 7730078806",
+    "tasks": []
+  },
+  {
+    "user_id": "7Fw0flhNALb49qHi",
+    "firstname": "Hedayathullah",
+    "lastname": "Immamuddin",
+    "email": "hedayath@gmail.com",
+    "password": "$2b$12$XlfIRHZ6m7iif.RvhYxIi.igxtmQIhgx/vjCXThb5hGjflwRO69.K",
+    "address": "moghalpura",
+    "phone": "+91 7702781754",
+    "tasks": []
+  }
+]
