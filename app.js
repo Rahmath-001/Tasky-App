@@ -1,4 +1,4 @@
-import express from "express"
+import express, { json } from "express"
 import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken" ;
@@ -91,6 +91,14 @@ app.post("/api/signup", async (req, res) => {
     }
 })
 
+
+
+
+
+
+
+
+
 app.post("/api/login", async (req, res)=>{
     try {
         
@@ -123,7 +131,7 @@ app.post("/api/login", async (req, res)=>{
 
         let privatekey = "admin-route";
         
-        const token= jwt.sign(playload,privatekey,{expiresIn:"1h"});
+        const token= jwt.sign(playload,privatekey,{expiresIn:"7d"});
         // console.log(token)
         res.status(200).json({success: "Login is successful", token})
 
@@ -134,6 +142,80 @@ app.post("/api/login", async (req, res)=>{
         res.status(500).json({error : "Internal Server Error FOUND"})   
     }
 })
+
+
+
+
+
+
+
+
+app.post("/api/task", async(req,res)=> { 
+    try {
+
+        // console.log(req.headers)
+        // console.log(req.headers["auth-token"])
+       
+        let token = req.headers["auth-token"]
+        if(!token){
+            return res.status(401).json({error : "Unauthorised ACCESS"})
+        }
+
+        const playload=jwt.verify(token, "admin-route")
+        console.log(playload)
+        if(!playload){
+            return res.status(401).json({error : "Unauthorised ACCESS"})
+        }
+
+        //check req.body
+
+        let {task_name, deadline}=req.body;
+        if (!task_name || !deadline) {
+            return res.status(400).json({error : "Some Fields Are Missing"})
+        }
+        console.log(task_name, deadline)
+    
+
+        
+        let utc_deadline= new Date(deadline);
+        if(utc_deadline=="Invalid Date"){
+            return res.status(400).json({error : "Invalid Date Entered"})
+        }
+        // console.log(new Date() <utc_deadline);
+
+
+        let fileData= await fs.readFile("data.json")
+        fileData=JSON.parse(fileData);
+
+
+        let userfound=fileData.find((ele)=>ele.user_id == playload.user_id);
+        // console.log(userfound);
+
+        let task_data={
+            task_id:randomstring(14),
+            task_name,
+            deadline: utc_deadline,
+            isCompleted: false
+        }
+
+        // console.log(task_data)
+        userfound.tasks.push(task_data);
+
+        // console.log(userfound)
+        console.log(fileData)
+
+        await fs.writeFile("data.json",JSON.stringify(fileData));
+        res.status(200).json({success: "POST Route is UP for TASK"})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error: "Internal Server ERROR"})
+    }
+})
+
+
+
+
 
 app.listen(port, () => {
     console.log("Server Started at Port ", port);
