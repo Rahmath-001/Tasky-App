@@ -1,8 +1,8 @@
 import express from "express"
 import fs from "fs/promises";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken" ;
 import randomstring from "./utils/randomstring.js";
-
 
 
 const app = express();
@@ -108,10 +108,27 @@ app.post("/api/login", async (req, res)=>{
         if (!userfound){
             return res.status(401).json({error:"Invalid Credentials"});
         }
+        console.log(userfound)
 
         let matchpassword= await bcrypt.compare(password,userfound.password)
+        if(!matchpassword){
+            return res.status(401).json({error : "Invalid Credentials."})
+        }
 
-        res.status(200).json({success : "Successfull LOGIN"})
+        let playload= {
+            user_id: userfound.user_id,
+            role: "user"
+        }
+
+
+        let privatekey = "admin-route";
+        
+        const token= jwt.sign(playload,privatekey,{expiresIn:"1h"});
+        // console.log(token)
+        res.status(200).json({success: "Login is successful", token})
+
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({error : "Internal Server Error FOUND"})   
