@@ -29,11 +29,6 @@ password2
 address
 */
 
-
-
-
-
-
 app.post("/api/signup", async (req, res) => {
     try {
         console.log(req.body);
