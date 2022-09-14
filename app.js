@@ -93,7 +93,6 @@ app.post("/api/signup", async (req, res) => {
 
 
 
-
 app.post("/api/login", async (req, res)=>{
     try {
         
@@ -111,7 +110,7 @@ app.post("/api/login", async (req, res)=>{
         if (!userfound){
             return res.status(401).json({error:"Invalid Credentials"});
         }
-        console.log(userfound)
+        // console.log(userfound)
 
         let matchpassword= await bcrypt.compare(password,userfound.password)
         if(!matchpassword){
@@ -168,15 +167,61 @@ app.post("/api/task", async(req,res)=> {
         if (!task_name || !deadline) {
             return res.status(400).json({error : "Some Fields Are Missing"})
         }
+        
         console.log(task_name, deadline)
     
-
+        // deadilen must be grater than 30 min and less than 30 days.
         
-        let utc_deadline= new Date(deadline);
-        if(utc_deadline=="Invalid Date"){
+        let present_time=new Date();
+        let utc_deadline=new Date(deadline);
+        let difference= utc_deadline-present_time;
+        // console.log(utc_deadline)
+        // console.log(difference)
+        // console.log(present_time)
+      
+        
+
+        // let utc_deadline= new Date(deadline);
+        if(utc_deadline=="Invalid Date" || (utc_deadline<present_time)){
             return res.status(400).json({error : "Invalid Date Entered"})
         }
         // console.log(new Date() <utc_deadline);
+        
+        
+        let mins = difference/(1000*60)
+        console.log(mins)
+        
+        let days=difference/(1000*60*60*24)
+        console.log(days)
+        
+        
+        if (mins<30 || days >30){
+            return res.status(400).json({error : "Time for deadline"})
+        }
+        
+        //get reminders
+
+        let reminders=[]
+
+        // console.log(present_time-1000)
+        
+        //1/4
+        let reminder2= new Date((+present_time) + (difference/4))
+        // console.log(reminder2);
+
+        1/2
+        let reminder1= new Date((+present_time) + (difference/2))
+        // console.log(reminder1)
+
+
+        //3/4
+        let reminder3= new Date((+present_time) + (difference/(4/3)))
+        // console.log(reminder3)
+
+
+        reminders.push(reminder1,reminder2,reminder3,utc_deadline)
+        console.log(reminders)
+        
 
 
         let fileData= await fs.readFile("data.json")
@@ -190,14 +235,15 @@ app.post("/api/task", async(req,res)=> {
             task_id:randomstring(14),
             task_name,
             deadline: utc_deadline,
-            isCompleted: false
+            isCompleted: false,
+            reminders
         }
 
         // console.log(task_data)
         userfound.tasks.push(task_data);
 
         // console.log(userfound)
-        console.log(fileData)
+        // console.log(fileData)
 
         await fs.writeFile("data.json",JSON.stringify(fileData));
         res.status(200).json({success: "POST Route is UP for TASK"})
@@ -210,7 +256,7 @@ app.post("/api/task", async(req,res)=> {
 
 
 
-
+// console.log(new Date())
 
 app.listen(port, () => {
     console.log("Server Started at Port ", port);

@@ -1,1 +1,25 @@
-[{"user_id":"fbq7MneqrgmvHyJx","firstname":"Abdul","lastname":"Rahman","email":"abdul@gmail.com","password":"$2b$12$UQqJqXNO1bSzW6Q31xWi.u5PSwFI/T.erTc4b9dcBwATHInnJeYqG","address":"moghalpura","phone":"+91 123456789","tasks":[]}]
+[
+  {
+    "user_id": "ITQIAsn6IjcWu659",
+    "firstname": "Abdul",
+    "lastname": "Rahman",
+    "email": "abdul@gmail.com",
+    "password": "$2b$12$joIqo/zwTq9YFgkWQTVUi.pDNwVWBBEkjq8D3/T4wtlvOmLbeT5w6",
+    "address": "moghalpura",
+    "phone": "+91 123456789",
+    "tasks": [
+      {
+        "task_id": "5CPFgJyiTLHYsc",
+        "task_name": "SEND YOUR PR's",
+        "deadline": "2022-09-14T13:20:08.000Z",
+        "isCompleted": false,
+        "reminders": [
+          "2022-09-14T12:20:10.090Z",
+          "2022-09-14T11:50:11.135Z",
+          "2022-09-14T12:50:09.045Z",
+          "2022-09-14T13:20:08.000Z"
+        ]
+      }
+    ]
+  }
+]
