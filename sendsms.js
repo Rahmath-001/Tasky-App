@@ -37,7 +37,7 @@ async function sendsms(smsbody){
     }
 }
 
-// sendsms(smsbody)
+sendsms(smsbody)
 
 
 // client.messages
