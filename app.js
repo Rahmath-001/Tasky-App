@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken" ;
 import randomstring from "./utils/randomstring.js";
+import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
 
 
 const app = express();
@@ -231,13 +232,26 @@ app.post("/api/task", async(req,res)=> {
         let userfound=fileData.find((ele)=>ele.user_id == playload.user_id);
         // console.log(userfound);
 
+        let task_id = randomString(14)
         let task_data={
-            task_id:randomstring(14),
+            task_id,
             task_name,
             deadline: utc_deadline,
             isCompleted: false,
             reminders
         }
+
+
+
+        task_data.reminders.forEach((ele, i) => {
+            // console.log(ele);
+            scheduleJob(`${task_id}_${i}`, ele, () => {
+                console.log("Reminder Sent", i);
+                console.log(new Date());
+            })
+            // console.log(i);
+        })
+        console.log(scheduledJobs);
 
         // console.log(task_data)
         userfound.tasks.push(task_data);
