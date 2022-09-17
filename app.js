@@ -3,6 +3,8 @@ import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken" ;
 import randomstring from "./utils/randomstring.js";
+import sendEmail from "./utils/sendMail.js";
+import sendSMS from "./utils/sendSMS.js";
 import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
 
 
@@ -77,15 +79,70 @@ app.post("/api/signup", async (req, res) => {
         // userdata.firstname= firstname;
         // console.log(userdata)
 
+
+        userData.isVerified = {
+            phone: false,
+            email: false
+        }
+        let phoneToken = randomstring(20);
+        let emailToken = randomstring(20);
+        userdata.verifyToken = {
+            phoneToken,
+            emailToken
+        }
+
+
+
         fileData.push(userdata);
 
         await fs.writeFile("data.json", JSON.stringify(fileData));
         res.status(200).json({ success: "User Signed Up Succesfully" });
+
+        await sendSMS({
+            body: `Thank you for Signing Up. Please click on the given link to verify your phone. http://192.168.68.133:5000/api/verify/mobile/${phoneToken}`,
+            to: phone
+        })
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" })
     }
 })
+
+
+
+
+
+
+/*
+METHOD : GET
+PUBLIC
+API Endpoint : /api/verify/mobile/:phonetoken
+*/
+
+app.get("/api/verify/mobile/:phonetoken", async (req, res) => {
+    try {
+        let phoneToken = req.params.phonetoken;
+        console.log(phoneToken);
+
+        let fileData = await fs.readFile("data.json");
+        fileData = JSON.parse(fileData);
+
+        let userFound = fileData.find((ele) => ele.verifyToken.phoneToken == phoneToken)
+        console.log(userFound);
+        if (userFound.isVerified.phone == true) {
+            return res.status(200).json({ success: "Phone already Verified" })
+        }
+        userFound.isVerified.phone = true;
+        await fs.writeFile("data.json", JSON.stringify(fileData));
+        res.status(200).json({ success: "Phone is Verified" })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+
 
 
 
@@ -232,7 +289,7 @@ app.post("/api/task", async(req,res)=> {
         let userfound=fileData.find((ele)=>ele.user_id == playload.user_id);
         // console.log(userfound);
 
-        let task_id = randomString(14)
+        let task_id = randomstring(14)
         let task_data={
             task_id,
             task_name,
@@ -247,11 +304,23 @@ app.post("/api/task", async(req,res)=> {
             // console.log(ele);
             scheduleJob(`${task_id}_${i}`, ele, () => {
                 console.log("Reminder Sent", i);
+                sendEmail({
+                    subject: "This is a  Reminder",
+                    to: userFound.email,
+                    html: `<p>Hi ${userFound.firstname}, <br>
+                    This is a Reminder - ${i + 1} to Complete your Task ${task_name} <br>
+                    <b>CFI Tasky App</b>
+                    </p>`
+                })
+                //Add Logic for Body
+                // console.log(`hey ${userFound.firstname}, this is your ${i + 1} reminder for your task : ${task_data.task_name}`);
                 console.log(new Date());
             })
             // console.log(i);
         })
         console.log(scheduledJobs);
+
+
 
         // console.log(task_data)
         userfound.tasks.push(task_data);
