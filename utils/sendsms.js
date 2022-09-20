@@ -1,8 +1,10 @@
 import twilio from 'twilio';
+import config from "config";
 
+const { TWILIO_SID, TWILIO_TOKEN, TWILIO_NUMBER } = config.get("SEND_SMS");
 
-const accountSid = "USE YOUR SID";
-const authToken = "USE YOUR TOKEN";
+const accountSid = TWILIO_SID;
+const authToken = TWILIO_TOKEN;
 const client = new twilio(accountSid, authToken);
 
 // let smsbody = {
@@ -14,7 +16,7 @@ async function sendSMS(smsbody) {
         let message = await client.messages
             .create({
                 body: smsbody.body,
-                from: '+16066127657',
+                from: TWILIO_NUMBER,
                 to: smsbody.to
             })
         console.log(message.sid);
