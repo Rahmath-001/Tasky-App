@@ -1,6 +1,7 @@
 import express from "express";
 import apiRouter from "./controllers/api/index.js"
 import taskRouter from "./controllers/tasks/index.js"
+import usermodel from "./models/user.js";
 
 
 const app = express();
@@ -29,6 +30,28 @@ app.get("/use", (req, res, next) => {
         res.status(500).json({ error: "Internal Server Error " })
     }
 })
+
+
+app.post("/api/data", async (req,res)=> {
+
+    try {
+
+        let user_data= new usermodel(req.body);
+        console.log(user_data)
+
+        await user_data.save()
+        
+        res.status(200).json({success:"Server working  for Booking"})
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error: "Internal Server ERROR"})
+        
+    }
+})
+
+
+
 
 app.listen(port,()=> {
     console.log("Server Started at port : ",port)
