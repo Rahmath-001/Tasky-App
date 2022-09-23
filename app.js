@@ -48,7 +48,7 @@ app.post("/api/data", async (req,res)=> {
         }
         
         await user_data.save()
-        console.log(user_data)
+        // console.log(user_data)
         
         res.status(200).json({success:"Server working for taking Data"})
         
