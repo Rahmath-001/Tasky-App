@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const tasks=new schema({
+const tasks=new Schema({
     tasks: [
         {
           task_name: {type: String,
@@ -13,14 +13,14 @@ const tasks=new schema({
           isCompleted: {type: Boolean,
               default:false},
           reminders: {
-              type: [date]
+              type: [Date]
           }
         }
     ]
 })
 
 
-const userschema = new schema({
+const userschema = new Schema({
     user:{
     firstname:
         {type : String,
@@ -46,6 +46,6 @@ const userschema = new schema({
     } 
 })
 
-const usermodel= new mongoose.model("Hotel", userschema, "User DB")
+const userModel= new mongoose.model("Users", userschema, "User DB")
 
-export default usermodel
+export default userModel

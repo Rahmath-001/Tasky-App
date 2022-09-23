@@ -1,5 +1,5 @@
 import express from "express";
-import { loginValidation,registerValidation, errorMiddleware } from "../../middleware/validation/index.js"
+import {loginvalidation, registervalidation, errormiddleware } from "../../middleware/validation/index.js"
 import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import config from "config";
@@ -22,7 +22,7 @@ password
 
 
 
- router.post("/login", loginValidation(), errorMiddleware, async (req, res) => {
+ router.post("/login", loginvalidation(), errormiddleware, async (req, res) => {
     try {
         let { email, password } = req.body;
         // if (!email || !password) {
@@ -63,10 +63,10 @@ password
     }
    })
 
-router.post("/signup",loginValidation(),errorMiddleware, async (req,res)=> {
+router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
    try {
       // console.log(req.body);
-      let { firstname, lastname, email, password, password2, address, phone } = req.body;
+      let { firstname, lastname, email, password, address, phone } = req.body;
       // // let body = req.body;
 
       // //Basic Validations
@@ -142,3 +142,5 @@ router.get("/", (req,res)=> {
 
 
 export default router;
+
+

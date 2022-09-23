@@ -1,8 +1,9 @@
 import express from "express";
-import apiRouter from "./controllers/api/index.js"
+import router from "./controllers/api/index.js";
 import taskRouter from "./controllers/tasks/index.js"
-import usermodel from "./models/user.js";
-
+import userModel from "./models/user.js";
+// import  util from "util";
+import "./dbconnect.js"
 
 const app = express();
 
@@ -15,8 +16,8 @@ app.get("/", (req,res)=> {
     res.status(200).json({success :"HELLO FROM EXPRESS"})
 })
 
-app.use("/api",apiRouter())
-app.use("/api/task",taskRouter())
+app.use("/api",router)
+app.use("/api/task",taskRouter)
 
 app.get("/use", (req, res, next) => {
     try {
@@ -36,12 +37,20 @@ app.post("/api/data", async (req,res)=> {
 
     try {
 
-        let user_data= new usermodel(req.body);
-        console.log(user_data)
 
-        await user_data.save()
+        let user_data= new userModel(req.body);
+        console.log(user_data.user)
+
+        let {email}=req.body;
+        const userdata= await userModel.findOne({email});
+        if (userdata){
+            return res.status(409).json({error:"Already registered"})
+        }
         
-        res.status(200).json({success:"Server working  for Booking"})
+        await user_data.save()
+        console.log(user_data)
+        
+        res.status(200).json({success:"Server working for taking Data"})
         
     } catch (error) {
         console.log(error)
