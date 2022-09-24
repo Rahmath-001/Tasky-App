@@ -1,1 +1,145 @@
-[{"user_id":"ITQIAsn6IjcWu659","firstname":"Abdul","lastname":"Rahman","email":"abdul@gmail.com","password":"$2b$12$joIqo/zwTq9YFgkWQTVUi.pDNwVWBBEkjq8D3/T4wtlvOmLbeT5w6","address":"moghalpura","phone":"+91 123456789","tasks":[{"task_id":"5CPFgJyiTLHYsc","task_name":"SEND YOUR PR's","deadline":"2022-09-14T13:20:08.000Z","isCompleted":false,"reminders":["2022-09-14T12:20:10.090Z","2022-09-14T11:50:11.135Z","2022-09-14T12:50:09.045Z","2022-09-14T13:20:08.000Z"]}]},{"user_id":"rECcxABRtdkL9NJa","firstname":"Rahmathullah","lastname":"Qaaemuddin","email":"rahmath@gmail.com","password":"$2b$12$VXg977sJz39hKTJC4bZjE.tQDt8Wf.KU/AlnSD3e5agxZiMmnf9iW","address":"Shah_ghouse","phone":"+91 012345678","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"g2Ybg7Zwmj3Dd55Abt9H","emailToken":"JdmuzezELhE0F49huMwr"}},{"user_id":"Qy9DlkW3AsJrjlwU","firstname":"Rahmathullah","lastname":"Qaaemuddin","email":"rahmathullah@gmail.com","password":"$2b$12$zTEQ/lI3JGkfnrKksWTin.TObs2MYK0c9HVJtLFysRKV2qpyNd55S","address":"Shah_ghouse","phone":"+91 0123456789","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"QZYolKH3lxf7tVOBlvmN","emailToken":"uLmyPn11pulxgoXQeliC"}},{"user_id":"6025x35ZtCFtIkte","firstname":"Rahmathullah","lastname":"Qaaemuddin","email":"rahmathullah1@gmail.com","password":"$2b$12$/i9DUzQSmEFZ1aZEWlvpCukTJD5t5rKCBYpkHW7EJwarA3OOYAea2","address":"Shah_ghouse","phone":"+91 0123456780","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"FNQcxrTXkeg7UAyJ0nfF","emailToken":"kEfxnThXhzxMlMqpmlHU"}},{"user_id":"TwtZ1rIbgt7vLrTr","firstname":"Rahmathulla","lastname":"Qaaemuddi","email":"rahmathullah01@gmail.com","password":"$2b$12$fkJz5CrRMp.DZonurkmxP.aoQPnsPanEw8m9tHLf3i47jdyJdMEwy","address":"Shah_ghouse","phone":"+91 0123456708","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"ikKlt1m2bOshSTXbUr70","emailToken":"o3q6f41WSaDL8XwZbgeB"}},{"user_id":"na9808XnXNjpPfkx","firstname":"Rahmathulla","lastname":"Qaaemuddi","email":"rahmathullah2@gmail.com","password":"$2b$12$UIKSDK7Ohd5kflxwNRuf2.WlV0gAFR7djCmfbJGlqD2C4ydu3/rka","address":"Shah_ghouse","phone":"+91 0123456754","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"qOFisOedMLeaMHpq9Ur2","emailToken":"ovwSuIeZxuwiLqNdbDxX"}},{"user_id":"NNmkqVey1NPyQG5B","firstname":"Rahmathullah","lastname":"Qaaemuddi","email":"rahmathullah20@gmail.com","password":"$2b$12$Wc1c8Bzi2QEwrPx/KExriuO18.tAO8P1riogQdGukHRM.rY6fzfdG","address":"Shah_ghouse","phone":"+91 0123456747","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"FFZ595di5Ocz848mzAk7","emailToken":"Dz4XOZLZNA17UhXvtuMM"}},{"user_id":"mdmbz6709GbqGiJx","firstname":"Rahmathullah","lastname":"Qaaemuddi","email":"rahmathullah21@gmail.com","password":"$2b$12$.BBjzE247Rc.gJFi47v0lOvz5VNpumapxN6qhD5iOaZt0xjML7dc2","address":"Shah_ghouse","phone":"+91 0123456748","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"j3XQsdATwqog3FTcKv1J","emailToken":"h8NHpzsIMJq4OT3IPmLG"}},{"user_id":"5JMOGcBJLXPrMAAS","firstname":"Rahmathullah","lastname":"Qaaemuddi","email":"rahmathullah22@gmail.com","password":"$2b$12$5.FJxvsRd.w9KKWEsiOMiOC2Nv5mvWCF6hAYgXBCdWrTEiEtaFG7q","address":"Shah_ghouse","phone":"+91 0123456741","tasks":[],"isVerified":{"phone":false,"email":false},"verifyToken":{"phoneToken":"76wzPAk7m3n7RFk0MTsE","emailToken":"9AJTLpGLGUO0V6d0Kh6z"}}]
+[
+  {
+    "user_id": "ITQIAsn6IjcWu659",
+    "firstname": "Abdul",
+    "lastname": "Rahman",
+    "email": "abdul@gmail.com",
+    "password": "$2b$12$joIqo/zwTq9YFgkWQTVUi.pDNwVWBBEkjq8D3/T4wtlvOmLbeT5w6",
+    "address": "moghalpura",
+    "phone": "+91 123456789",
+    "tasks": [
+      {
+        "task_id": "5CPFgJyiTLHYsc",
+        "task_name": "SEND YOUR PR's",
+        "deadline": "2022-09-14T13:20:08.000Z",
+        "isCompleted": false,
+        "reminders": [
+          "2022-09-14T12:20:10.090Z",
+          "2022-09-14T11:50:11.135Z",
+          "2022-09-14T12:50:09.045Z",
+          "2022-09-14T13:20:08.000Z"
+        ]
+      }
+    ]
+  },
+  {
+    "user_id": "rECcxABRtdkL9NJa",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddin",
+    "email": "rahmath@gmail.com",
+    "password": "$2b$12$VXg977sJz39hKTJC4bZjE.tQDt8Wf.KU/AlnSD3e5agxZiMmnf9iW",
+    "address": "Shah_ghouse",
+    "phone": "+91 012345678",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "g2Ybg7Zwmj3Dd55Abt9H",
+      "emailToken": "JdmuzezELhE0F49huMwr"
+    }
+  },
+  {
+    "user_id": "Qy9DlkW3AsJrjlwU",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddin",
+    "email": "rahmathullah@gmail.com",
+    "password": "$2b$12$zTEQ/lI3JGkfnrKksWTin.TObs2MYK0c9HVJtLFysRKV2qpyNd55S",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456789",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "QZYolKH3lxf7tVOBlvmN",
+      "emailToken": "uLmyPn11pulxgoXQeliC"
+    }
+  },
+  {
+    "user_id": "6025x35ZtCFtIkte",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddin",
+    "email": "rahmathullah1@gmail.com",
+    "password": "$2b$12$/i9DUzQSmEFZ1aZEWlvpCukTJD5t5rKCBYpkHW7EJwarA3OOYAea2",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456780",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "FNQcxrTXkeg7UAyJ0nfF",
+      "emailToken": "kEfxnThXhzxMlMqpmlHU"
+    }
+  },
+  {
+    "user_id": "TwtZ1rIbgt7vLrTr",
+    "firstname": "Rahmathulla",
+    "lastname": "Qaaemuddi",
+    "email": "rahmathullah01@gmail.com",
+    "password": "$2b$12$fkJz5CrRMp.DZonurkmxP.aoQPnsPanEw8m9tHLf3i47jdyJdMEwy",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456708",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "ikKlt1m2bOshSTXbUr70",
+      "emailToken": "o3q6f41WSaDL8XwZbgeB"
+    }
+  },
+  {
+    "user_id": "na9808XnXNjpPfkx",
+    "firstname": "Rahmathulla",
+    "lastname": "Qaaemuddi",
+    "email": "rahmathullah2@gmail.com",
+    "password": "$2b$12$UIKSDK7Ohd5kflxwNRuf2.WlV0gAFR7djCmfbJGlqD2C4ydu3/rka",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456754",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "qOFisOedMLeaMHpq9Ur2",
+      "emailToken": "ovwSuIeZxuwiLqNdbDxX"
+    }
+  },
+  {
+    "user_id": "NNmkqVey1NPyQG5B",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddi",
+    "email": "rahmathullah20@gmail.com",
+    "password": "$2b$12$Wc1c8Bzi2QEwrPx/KExriuO18.tAO8P1riogQdGukHRM.rY6fzfdG",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456747",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "FFZ595di5Ocz848mzAk7",
+      "emailToken": "Dz4XOZLZNA17UhXvtuMM"
+    }
+  },
+  {
+    "user_id": "mdmbz6709GbqGiJx",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddi",
+    "email": "rahmathullah21@gmail.com",
+    "password": "$2b$12$.BBjzE247Rc.gJFi47v0lOvz5VNpumapxN6qhD5iOaZt0xjML7dc2",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456748",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "j3XQsdATwqog3FTcKv1J",
+      "emailToken": "h8NHpzsIMJq4OT3IPmLG"
+    }
+  },
+  {
+    "user_id": "5JMOGcBJLXPrMAAS",
+    "firstname": "Rahmathullah",
+    "lastname": "Qaaemuddi",
+    "email": "rahmathullah22@gmail.com",
+    "password": "$2b$12$5.FJxvsRd.w9KKWEsiOMiOC2Nv5mvWCF6hAYgXBCdWrTEiEtaFG7q",
+    "address": "Shah_ghouse",
+    "phone": "+91 0123456741",
+    "tasks": [],
+    "isVerified": { "phone": false, "email": false },
+    "verifyToken": {
+      "phoneToken": "76wzPAk7m3n7RFk0MTsE",
+      "emailToken": "9AJTLpGLGUO0V6d0Kh6z"
+    }
+  }
+]
