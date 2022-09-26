@@ -7,6 +7,8 @@ import config from "config";
 
 import generateToken from "../../middleware/auth/generateToken.js";
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js"
+import Users from "../../models/users/index.js";
+import tasks from "../../models/tasks/index.js";
 const router=express.Router();
 
 /*
@@ -116,6 +118,9 @@ router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
           phoneToken,
           emailToken
       }
+
+
+      
 
       // userData.firstname = firstname;
       // console.log(userData)

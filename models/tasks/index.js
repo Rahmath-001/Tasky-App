@@ -28,3 +28,5 @@ let taskschema = mongoose.Schema ({
 })
 
 const taskmodel= new mongoose.model("Tasks", taskschema, "Users_Tasks")
+
+export default taskmodel

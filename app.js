@@ -4,6 +4,7 @@ import taskRouter from "./controllers/tasks/index.js"
 import userModel from "./models/user.js";
 // import  util from "util";
 import "./dbconnect.js"
+import taskmodel from "./models/tasks/index.js";
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.post("/api/data", async (req,res)=> {
         console.log(user_data.user)
 
         let {email}=req.body;
-        const userdata= await userModel.findOne({email});
+        const userdata= await taskmodel.findOne({email});
         if (userdata){
             return res.status(409).json({error:"Already registered"})
         }
