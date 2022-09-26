@@ -1,25 +1,5 @@
 import mongoose from "mongoose";
 
-
-const Schema = mongoose.Schema;
-
-const tasks=new Schema({
-    tasks: [
-        {
-          task_name: {type: String,
-              required:true},
-          deadline: {type: Date,
-              required:true},
-          isCompleted: {type: Boolean,
-              default:false},
-          reminders: {
-              type: [Date]
-          }
-        }
-    ]
-})
-
-
 const userschema = new Schema({
     user:{
     firstname:
@@ -41,10 +21,28 @@ const userschema = new Schema({
         {type: String,
         required:true},
     },
-    tasks: {
-        tyupe:[tasks]
-    } 
-})
+    // tasks: {
+    //     tyupe:[tasks]
+    // },
+    userverifytoken:{
+        email: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String,
+            required: true
+        }
+    },
+    // passwordresettoken: {
+    //     type: String,
+    //     default: null
+    // },
+    isSuspended: {
+        type: Boolean,
+        default: false
+    }
+});
 
 const userModel= new mongoose.model("Users", userschema, "Userds_DB")
 
