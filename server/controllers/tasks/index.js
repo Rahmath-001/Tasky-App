@@ -13,7 +13,7 @@ import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 const router=express.Router();
 
 
-router.post("/", authMiddleware, async (req,res)=> {
+router.post("/api/task", authMiddleware, async (req,res)=> {
    try {
 
         //Check for Authorization 
@@ -145,8 +145,47 @@ router.get("/tasks", (req,res)=>{
        }
 })
 
-router.delete("/:task_id", (req,res)=> {
+router.delete("api/task/:task_id", async (req,res)=> {
     try {
+        // console.log(req.params);
+        let task_id = req.params.task_id;
+        console.log(task_id);
+
+        //Check for Authorisation
+        let token = req.headers["auth-token"];
+        if (!token) {
+            return res.status(401).json({ error: "Unauthorised Access" });
+        }
+        const payload = jwt.verify(token, "codeforindia");
+        // console.log(payload);
+        if (!payload) {
+            return res.status(401).json({ error: "Unauthorised Access" });
+        }
+
+
+        //Reading File Data
+        let fileData = await fs.readFile("data.json");
+        fileData = JSON.parse(fileData);
+
+        let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
+        // console.log(userFound);
+
+        //Find Index of Given Task
+
+        let taskIndex = userFound.tasks.findIndex((ele) => ele.task_id == task_id);
+        // console.log(taskIndex);
+
+        if (taskIndex == -1) {
+            return res.status(404).json({ error: "Task Not Found" });
+        }
+
+        //Delete Element with Given Index from an Array
+        userFound.tasks.splice(taskIndex, 1)
+        // console.log(userFound.tasks);
+        // console.log(fileData);
+        await fs.writeFile("data.json", JSON.stringify(fileData));
+        res.status(200).json({ success: "Task Was Deleted Successfully" });
+
      res.status(200).json({success :"Task delete is UP"})
     } catch (error) {
      res.status(500).json({error :"Interval Server Error"})

@@ -20,6 +20,10 @@ app.get("/", (req,res)=> {
 app.use("/api",router)
 app.use("/api/task",taskRouter)
 
+
+app.get("/api/")
+
+
 app.get("/use", (req, res, next) => {
     try {
         console.log("HELLO FROM USE");
@@ -37,7 +41,6 @@ app.get("/use", (req, res, next) => {
 app.post("/api/data", async (req,res)=> {
 
     try {
-
 
         let user_data= new userModel(req.body);
         console.log(user_data.user)
