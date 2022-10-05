@@ -1,7 +1,7 @@
 
 
 
-function randomstring(length){
+function randomString(length){
     let result = '';
     let characters='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let characterslength=characters.length;
@@ -12,6 +12,6 @@ function randomstring(length){
     return result;
 }
 
-export default randomstring
+export default randomString
 
 // console.log(Math.floor((Math.random() * 62)))

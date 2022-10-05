@@ -4,7 +4,7 @@
 import { scheduleJob } from "node-schedule";
 
 
-import utils from "./utils/randomString.js"
+import utils from "../utils/randomString.js"
 // import {randomString,randomString2} from "./ut"
 
 // console.log(utils.randomString2(100))

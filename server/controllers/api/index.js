@@ -65,6 +65,9 @@ password
     }
    })
 
+
+   
+
 router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
    try {
       // console.log(req.body);

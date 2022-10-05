@@ -1,6 +1,5 @@
 import twilio from 'twilio';
 import config from "config";
-import {body} from "express-validator"
 
 const { TWILIO_SID, TWILIO_TOKEN, TWILIO_NUMBER } = config.get("SEND_SMS");
 

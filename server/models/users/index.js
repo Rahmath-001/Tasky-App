@@ -21,9 +21,9 @@ const userschema = new Schema({
         {type: String,
         required:true},
     },
-    // tasks: {
-    //     tyupe:[tasks]
-    // },
+    tasks: {
+        tyupe:[tasks]
+    },
     userverifytoken:{
         email: {
             type: String,

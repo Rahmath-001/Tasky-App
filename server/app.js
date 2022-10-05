@@ -21,21 +21,21 @@ app.use("/api",router)
 app.use("/api/task",taskRouter)
 
 
-app.get("/api/")
+// app.get("/api/")
 
 
-app.get("/use", (req, res, next) => {
-    try {
-        console.log("HELLO FROM USE");
-        console.log(req.payload);
-        console.log(req.adnan);
-        console.log(req.chetan);
-        res.status(200).json({ success: "Next Middleware" })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error " })
-    }
-})
+// app.get("/use", (req, res, next) => {
+//     try {
+//         console.log("HELLO FROM USE");
+//         console.log(req.payload);
+//         console.log(req.adnan);
+//         console.log(req.chetan);
+//         res.status(200).json({ success: "Next Middleware" })
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({ error: "Internal Server Error " })
+//     }
+// })
 
 
 app.post("/api/data", async (req,res)=> {
