@@ -5,6 +5,7 @@ import fs from "fs/promises";
 
 
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
+import userModel from "../../models/users/index.js";
 // import randomString from "../../utils/";
 // import sendEmail from "../utils/sendMail.js";
 // import sendSMS from "../utils/sendSMS.js";
@@ -13,7 +14,7 @@ import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 const router=express.Router();
 
 
-router.post("/api/task", authMiddleware, async (req,res)=> {
+router.post("/task", authMiddleware, async (req,res)=> {
    try {
 
         //Check for Authorization 
@@ -52,9 +53,6 @@ router.post("/api/task", authMiddleware, async (req,res)=> {
 
         //Check Validation for 30 mins and 30 Days
         let difference = utc_deadline - present_time;
-        // console.log(utc_deadline);
-        // console.log(present_time);
-        // console.log(difference);
 
 
         //Difference in Minutes
@@ -65,7 +63,7 @@ router.post("/api/task", authMiddleware, async (req,res)=> {
         // console.log(days);
 
         //Not Less than 30 mins and Not more than 30 Days
-        if (mins < 1 || days > 30) {
+        if (mins < 30 || days > 30) {
             return res.status(400).json({ error: "Invalid Date Entered, Deadline Should be More than 30 mins and Less than 30 Days" });
         }
 
@@ -86,10 +84,12 @@ router.post("/api/task", authMiddleware, async (req,res)=> {
 
 
         //Reading File Data
-        let fileData = await fs.readFile("data.json");
-        fileData = JSON.parse(fileData);
+        // let fileData = await fs.readFile("data.json");
+        // fileData = JSON.parse(fileData);
 
-        let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
+        let userFound  = await userModel.findOne(payload.user_id)
+
+        // let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
         // console.log(userFound);
         let task_id = randomString(14)
         let task_data = {
@@ -120,21 +120,33 @@ router.post("/api/task", authMiddleware, async (req,res)=> {
         })
         console.log(scheduledJobs);
 
-        // console.log(task_data);
+        console.log(task_data);
         console.log(userFound.tasks);
         userFound.tasks.push(task_data);
+        
+
+        
+        // await JSON.stringify(fileData)
+        // userFound.tasks.push(task_data);
 
         // console.log(userFound);
         // console.log(fileData);
 
-
-        await fs.writeFile("data.json", JSON.stringify(fileData));
+        
+        // await fs.writeFile("data.json", JSON.stringify(fileData));
+        console.log(userFound);
+        await userFound.save()
 
     res.status(200).json({success :"Task was Added"})
    } catch (error) {
+    console.error(error);
     res.status(500).json({error :"Internal Server Error"})
    }
 })
+
+
+
+
 
 
 router.get("/tasks", (req,res)=>{
@@ -145,7 +157,7 @@ router.get("/tasks", (req,res)=>{
        }
 })
 
-router.delete("api/task/:task_id", async (req,res)=> {
+router.delete("/task/:task_id", async (req,res)=> {
     try {
         // console.log(req.params);
         let task_id = req.params.task_id;

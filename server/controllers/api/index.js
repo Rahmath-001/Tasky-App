@@ -5,10 +5,12 @@ import bcrypt from "bcrypt";
 import config from "config";
 
 
+import "../../dbconnect.js"
 import generateToken from "../../middleware/auth/generateToken.js";
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js"
 import Users from "../../models/users/index.js";
-import tasks from "../../models/tasks/index.js";
+import taskmodel from "../../models/tasks/index.js";
+import userModel from "../../models/users/index.js";
 const router=express.Router();
 
 /*
@@ -31,10 +33,10 @@ password
         //     return res.status(400).json({ "error": "Some Fields Are Missing " });
         // }
 
-        let fileData = await fs.readFile("data.json");
-        fileData = JSON.parse(fileData);
+        let userFound = await userModel.findOne({email})  
+        // fileData = JSON.parse(fileData);
 
-        let userFound = fileData.find((ele) => ele.email == email)
+        // let userFound = fileData.find((ele) => ele.email == email)
         if (!userFound) {
             return res.status(401).json({ "error": "Invalid Credentials " });
            }
@@ -56,6 +58,8 @@ password
        const token = generateToken(payload);
        // console.log(token);
 
+       await userModel.save
+
        res.status(200).json({ success: "Login is Successful", token })
 
 
@@ -69,74 +73,33 @@ password
    
 
 router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
-   try {
-      // console.log(req.body);
-      let { firstname, lastname, email, password, address, phone } = req.body;
-      // // let body = req.body;
-
-      // //Basic Validations
-      // if (!email || !firstname || !lastname || !phone || !address || !password || !password2) {
-      //     return res.status(400).json({ "error": "Some Fields Are Missing " });
-      // }
-      // if (password !== password2) {
-      //     return res.status(400).json({ "error": "Passwords are Not Same" });
-      // }
-      //Check Duplication of Email & Mobile
-      let fileData = await fs.readFile("data.json");
-      fileData = JSON.parse(fileData);
-      //
-      // console.log(fileData);
-      // console.log(email);
-
-      let emailFound = fileData.find((ele) => ele.email == email)
-      // console.log(emailFound);
-      if (emailFound) {
-          return res.status(409).json({ error: "User Email Already Registered. Please Login" });
-      }
-
-      let phoneFound = fileData.find((ele) => ele.phone == phone)
-      if (phoneFound) {
-          return res.status(409).json({ error: "User Phone Already Registered. Please Login." })
-      }
-
-      // fileData.forEach((ele) => {
-      //     console.log(ele.email);
-      // })
-
-      password = await bcrypt.hash(password, 12);
-
-      //Generate a 12 Digit Random String for user_id
-
-      let user_id = randomString(16);
-      // console.log(user_id);
-      let userData = { user_id, firstname, lastname, email, password, address, phone };
-      userData.tasks = []
-      userData.isVerified = {
-          phone: false,
-          email: false
-      }
-      let phoneToken = randomString(20);
-      let emailToken = randomString(20);
-      userData.verifyToken = {
-          phoneToken,
-          emailToken
-      }
-
-
       
+      try {
 
-      // userData.firstname = firstname;
-      // console.log(userData)
-      fileData.push(userData);
-      await fs.writeFile("data.json", JSON.stringify(fileData));
-    res.status(200).json({success :"User Signed Up Succesfully"})
-    sendSMS({
-      body: `Thank you for Signing Up. Please click on the given link to verify your phone. ${config.get("URL")}/api/verify/mobile/${phoneToken}`,
-      to: phone
-  })
-   } catch (error) {
-    res.status(500).json({error :"Internal server error"})
-   }
+        let { firstname, lastname, email, password,phone } = req.body;
+        // console.log(req.body);
+        //Avoid Double Registration
+        let userData = await userModel.findOne({ email });
+        if (userData) {
+            return res.status(409).json({ "error": "Email Already Registered" })
+        }
+        userData = await userModel.findOne({ phone });
+        if (userData) {
+            return res.status(409).json({ "error": "Email Already Registered" })
+        }
+
+        req.body.password = await bcrypt.hash(password, 12);
+        const user = new userModel(req.body);
+
+        // user.userverifytoken = randomString(15);
+        await user.save();
+
+        res.status(200).json({ "success": "User Registered Successfully" })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "error": "Internal Server Error" })
+    }
 })
 
 
