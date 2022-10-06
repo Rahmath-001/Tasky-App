@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// import {Schema} from "mongoose";
 
 let taskschema = mongoose.Schema ({
     user:{

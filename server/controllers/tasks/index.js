@@ -122,24 +122,20 @@ router.post("/task", authMiddleware, async (req,res)=> {
 
         console.log(task_data);
         console.log(userFound.tasks);
-        userFound.tasks.push(task_data);
-        
-
         
         // await JSON.stringify(fileData)
         // userFound.tasks.push(task_data);
-
+        reminders.push(task_data);
         // console.log(userFound);
         // console.log(fileData);
 
         
         // await fs.writeFile("data.json", JSON.stringify(fileData));
-        console.log(userFound);
         await userFound.save()
 
     res.status(200).json({success :"Task was Added"})
    } catch (error) {
-    console.error(error);
+    console.error(error)
     res.status(500).json({error :"Internal Server Error"})
    }
 })
