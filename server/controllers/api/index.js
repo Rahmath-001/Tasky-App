@@ -29,20 +29,20 @@ password
  router.post("/login", loginvalidation(), errormiddleware, async (req, res) => {
     try {
         let { email, password } = req.body;
-        // if (!email || !password) {
-        //     return res.status(400).json({ "error": "Some Fields Are Missing " });
-        // }
+        if (!email || !password) {
+            return res.status(400).json({ "error": "Some Fields Are Missing " });
+        }
 
         let userFound = await userModel.findOne({email})  
         // fileData = JSON.parse(fileData);
 
         // let userFound = fileData.find((ele) => ele.email == email)
         if (!userFound) {
-            return res.status(401).json({ "error": "Invalid Credentials " });
+            return res.status(401).json({ "error": "Invalid Credentials email " });
            }
        // console.log(userFound);
-          let matchPassword = await bcrypt.compare(password, userFound.password)
-         // console.log(matchPassword);
+       let matchPassword = await bcrypt.compare(password, userFound.password)
+       // console.log(matchPassword);
           if (!matchPassword) {
               return res.status(401).json({ "error": "Invalid Credentials " });
              }
@@ -83,10 +83,10 @@ router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
         if (userData) {
             return res.status(409).json({ "error": "Email Already Registered" })
         }
-        userData = await userModel.findOne({ phone });
-        if (userData) {
-            return res.status(409).json({ "error": "Email Already Registered" })
-        }
+        // userData = await userModel.findOne({ phone });
+        // if (userData) {
+        //     return res.status(409).json({ "error": "Email Already Registered phone" })
+        // }
 
         req.body.password = await bcrypt.hash(password, 12);
         const user = new userModel(req.body);

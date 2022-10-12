@@ -1,6 +1,22 @@
 import mongoose from "mongoose";
 
-
+let taskschema = mongoose.Schema({
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+    },
+    tasks: [
+      {
+        task_name: { type: String, required: true },
+        deadline: { type: Date, required: true },
+        isCompleted: { type: Boolean, default: false },
+        reminders: {
+          type: [Date],
+          required: true,
+        },
+      },
+    ],
+  });
 
 
 const userschema = new  mongoose.Schema({
@@ -16,15 +32,15 @@ const userschema = new  mongoose.Schema({
     password: 
         {type: String,
         required:true},
-    address: 
-        {type: String,
-        required:true},
-    phone: 
-        {type: String,
-        required:true},  
-    // tasks: {
-    //     type:[taskschema]
-    // },
+    // address: 
+    //     {type: String,
+    //     required:true},
+    // phone: 
+    //     {type: String,
+    //     required:true},  
+    tasks: {
+        type:[taskschema]
+    },
     // userverifytoken:{
     //     email: {
     //         type: String,

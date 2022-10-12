@@ -87,7 +87,8 @@ router.post("/task", authMiddleware, async (req,res)=> {
         // let fileData = await fs.readFile("data.json");
         // fileData = JSON.parse(fileData);
 
-        let userFound  = await userModel.findOne(payload.user_id)
+        let userFound  = await userModel.findOne({userModel: payload.user_id})
+        console.log(userFound)
 
         // let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
         // console.log(userFound);
@@ -114,18 +115,18 @@ router.post("/task", authMiddleware, async (req,res)=> {
                 })
                 //Add Logic for Body
                 // console.log(`hey ${userFound.firstname}, this is your ${i + 1} reminder for your task : ${task_data.task_name}`);
-                console.log(new Date());
+                // console.log(new Date());
             })
             // console.log(i);
         })
-        console.log(scheduledJobs);
+        // console.log(scheduledJobs);
 
-        console.log(task_data);
+        // console.log(task_data);
         console.log(userFound.tasks);
         
         // await JSON.stringify(fileData)
         // userFound.tasks.push(task_data);
-        reminders.push(task_data);
+        userFound.tasks.push(task_data);
         // console.log(userFound);
         // console.log(fileData);
 
