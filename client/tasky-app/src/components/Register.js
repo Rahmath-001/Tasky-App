@@ -2,8 +2,11 @@ import Header from "./Header";
 import axios from "axios";
 import {useState} from "react";
 import {Link} from "react-router-dom"
+import {useNavigate} from 'react-router-dom';
 
 function Register({alert,showAlert}){
+
+    // const navigate= useNavigate();
 
 
     const  [userData,setUserData]=useState({
@@ -28,12 +31,13 @@ function Register({alert,showAlert}){
             //prevents refreshing the form
             e.preventDefault();
             console.log(userData);
-            let res = await axios.post("/api/user/register", userData);
+            let res = await axios.post("/api/signup", userData);
             console.log(res.data);
             showAlert({
                 type:"success",
                 msg: res.data.success
             })
+            // navigate("/login")
         } catch (error) {
             
             if(error.response.data.errors){
@@ -95,7 +99,7 @@ function Register({alert,showAlert}){
 
                         <input type="password" id="lname" name="password2" autoComplete="off" placeholder="Confirm Password" value={password2} onChange={onChangeHandler} /><br />
                         
-                        <input type="submit" value="Register" />
+                        <input type="submit" value="Register"  />
                     </form>
                 </div>
                      <br></br> <br></br>

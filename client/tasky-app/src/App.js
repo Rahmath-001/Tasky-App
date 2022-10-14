@@ -5,7 +5,8 @@ import Login from './components/Login';
 import { useState, useEffect } from 'react';
 import PrivateRoutes from './components/PrivateRoute';
 import UserDashboard from './components/UserDashboard.js'
-import AdminDashboard from './components/AdminDashboard.js'
+// import AdminDashboard from './components/AdminDashboard.js'
+
 
 import Register from "./components/Register.js" 
 
@@ -27,17 +28,17 @@ function App() {
 
 
   useEffect(() => {
-    async function getBooks() {
+    async function getTask() {
       try {
         setLoading(true);
-        let { data } = await axios.get("api/books");
+        let { data } = await axios.get("api/task");
         setbooksData(data.booksData);
         setLoading(false);
       } catch (error) {
         console.error(error.response.data);
       }
     }
-    getBooks();
+    getTask();
   }, [])
 
    
@@ -63,11 +64,8 @@ function App() {
           alert={alert}
           showAlert={showAlert}
         />} />
-
-        <Route element={<PrivateRoutes/>}>
         <Route path="/user" element={<UserDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Route>
+        
       </Routes>
     </>
   );

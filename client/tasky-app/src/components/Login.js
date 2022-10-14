@@ -37,11 +37,11 @@ function Login({ alert, showAlert }) {
             let res = await axios.post("/api/login", userData);
             // console.log(res.data);
             localStorage.setItem("token", JSON.stringify({ token: res.data.token, role: res.data.role }))
-            if (res.data.role == "admin") {
-                navigate("/admin");
-            } else {
-                navigate("/user");
-            }
+            // if (res.data.role == "admin") {
+            //     navigate("/admin");
+            // } else {
+            //     navigate("/user");
+            // }
             showAlert({
                 type: "success",
                 msg: res.data.success
