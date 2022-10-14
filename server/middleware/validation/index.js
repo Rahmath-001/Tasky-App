@@ -28,6 +28,42 @@ function registervalidation() {
 }
 
 
+function scheduletaskvalidation(){
+    return [
+        body("taskname", "task name cannot be empty").notEmpty(),
+        body("deadline").custom(value =>{
+
+            if(new Date(value)== "Invalid Date")
+            throw new Error("Invalid Date Entered")
+                let deadline= new Date(value);
+                let min=(deadline - new Date()) / (1000 * 60) 
+                let days=(deadline - new Date()) / (1000 * 60 * 60 * 24)
+            if(min<30 || days>30){
+                throw new Error("Inavlid Date Entered, Deadline must be more than 30 min and less than 30 days.")
+            }
+            else{
+                throw true;
+            }
+        })
+
+    ]
+}
+
+
+
+function editTaskvalidation (){
+    const rules = scheduletaskvalidation()
+
+    return [
+        ...rules,
+        body("isCompleted", "isCompleted cannot be empty and should be boolean").isBoolean(),
+    ]
+}
+
+
+
+
+
 function errormiddleware(req,res,next){
     const errors= validationResult(req);
     if(!errors.isEmpty()){
@@ -36,4 +72,4 @@ function errormiddleware(req,res,next){
     return next();
 }
 
-export {loginvalidation, registervalidation, errormiddleware}
+export {loginvalidation, registervalidation, errormiddleware,scheduletaskvalidation}

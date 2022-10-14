@@ -1,26 +1,12 @@
 import mongoose from "mongoose";
 
-let taskschema = mongoose.Schema({
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
-    },
-    tasks: [
-      {
-        task_name: { type: String, required: true },
-        deadline: { type: Date, required: true },
-        isCompleted: { type: Boolean, default: false },
-        reminders: {
-          type: [Date],
-          required: true,
-        },
-      },
-    ],
-  });
-
-
 const userschema = new  mongoose.Schema({
-    firstname:
+  usertype : {
+    type: String,
+    default: "user"
+  } ,
+  
+  firstname:
         {type : String,
         required:true},
     lastname: 
@@ -38,9 +24,6 @@ const userschema = new  mongoose.Schema({
     // phone: 
     //     {type: String,
     //     required:true},  
-    tasks: {
-        type:[taskschema]
-    },
     // userverifytoken:{
     //     email: {
     //         type: String,

@@ -42,7 +42,7 @@ password
            }
        // console.log(userFound);
        let matchPassword = await bcrypt.compare(password, userFound.password)
-       // console.log(matchPassword);
+       console.log(matchPassword);
           if (!matchPassword) {
               return res.status(401).json({ "error": "Invalid Credentials " });
              }
@@ -89,9 +89,10 @@ router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
         // }
 
         req.body.password = await bcrypt.hash(password, 12);
+        console.log(req.body.password)
         const user = new userModel(req.body);
 
-        // user.userverifytoken = randomString(15);
+        user.userverifytoken = randomString(15);
         await user.save();
 
         res.status(200).json({ "success": "User Registered Successfully" })
@@ -110,7 +111,6 @@ router.get("/", (req,res)=> {
      res.status(400).json({error :"Internal server error"})
     }
  })
-
 
 export default router;
 

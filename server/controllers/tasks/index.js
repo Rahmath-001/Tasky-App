@@ -2,10 +2,11 @@ import express  from "express";
 import authMiddleware from "../../middleware/auth/verifyToken.js";
 import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
 import fs from "fs/promises";
-
+import jwt from 'jsonwebtoken'
 
 import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
 import userModel from "../../models/users/index.js";
+import taskmodel from "../../models/tasks/index.js";
 // import randomString from "../../utils/";
 // import sendEmail from "../utils/sendMail.js";
 // import sendSMS from "../utils/sendSMS.js";
@@ -146,60 +147,88 @@ router.post("/task", authMiddleware, async (req,res)=> {
 
 
 
-router.get("/tasks", (req,res)=>{
+router.get("/tasks",authMiddleware ,async (req,res)=>{
     try {
-        res.status(200).json({success :"TASK GET is UP"})
+        const payload= req.body;
+
+        let taskData = await taskmodel.findOne({user:payload.user_id});
+        console.log(taskData)
+
+        res.status(200).json({tasks:taskData.tasks})
        } catch (error) {
         res.status(500).json({error :"Interval Server Error"})
        }
 })
 
-router.delete("/task/:task_id", async (req,res)=> {
+
+
+
+router.get("/:task_id", authMiddleware, async (req,res)=>{
     try {
-        // console.log(req.params);
-        let task_id = req.params.task_id;
-        console.log(task_id);
+        const payload= req.body;
+        console.log(req.params.task_id)
 
-        //Check for Authorisation
-        let token = req.headers["auth-token"];
-        if (!token) {
-            return res.status(401).json({ error: "Unauthorised Access" });
-        }
-        const payload = jwt.verify(token, "codeforindia");
-        // console.log(payload);
-        if (!payload) {
-            return res.status(401).json({ error: "Unauthorised Access" });
-        }
+        let taskData = await taskmodel.findOne({user:payload.user_id});
+        console.log(taskData)
+
+        let taskFound= taskData.tasks.find((ele)=> ele._id == req.params.task_id)
+        console.log(taskFound)
+
+        res.status(200).json({success :"TASK Found", task:taskFound})
+       } catch (error) {
+        res.status(500).json({error :"Interval Server Error"})
+       }
+})
 
 
-        //Reading File Data
-        let fileData = await fs.readFile("data.json");
-        fileData = JSON.parse(fileData);
 
-        let userFound = fileData.find((ele) => ele.user_id == payload.user_id)
-        // console.log(userFound);
+router.delete("/:task_id", authMiddleware,async (req, res) => {
+    try {
 
-        //Find Index of Given Task
+        const payload= req.body;
+        console.log(req.params.task_id)
 
-        let taskIndex = userFound.tasks.findIndex((ele) => ele.task_id == task_id);
-        // console.log(taskIndex);
+        let taskData = await taskmodel.findOne({user:payload.user_id});
+        console.log(taskData);
 
-        if (taskIndex == -1) {
-            return res.status(404).json({ error: "Task Not Found" });
-        }
+        let taskIndex= taskData.tasks.findIndex((ele)=> ele._id == req.params.task_id);
+        console.log(taskIndex);
+    
+        console.log(taskData.tasks[taskIndex])
+        taskData.tasks[taskIndex].reminders.forEach((ele,i)=>{
+            cancelJob(`${taskData.tasks[taskIndex]._id}_${i}`)
+        })
 
-        //Delete Element with Given Index from an Array
-        userFound.tasks.splice(taskIndex, 1)
-        // console.log(userFound.tasks);
-        // console.log(fileData);
-        await fs.writeFile("data.json", JSON.stringify(fileData));
-        res.status(200).json({ success: "Task Was Deleted Successfully" });
+        await taskData.save()
+        taskData.tasks.splice(taskIndex,1);
 
-     res.status(200).json({success :"Task delete is UP"})
+
+
+        res.status(200).json({ success: "Task is Deleted successfully" });
     } catch (error) {
-     res.status(500).json({error :"Interval Server Error"})
+        console.error(error);
+        res.status(500).json({ error: "Interval Server Error" });
     }
- })
+})
+
+
+
+router.put("/:task_id",authMiddleware,async (req,res)=>{
+
+
+    try {
+        
+
+        res.status(200).json({ success: "Task is Deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Interval Server Error" });
+    }
+
+
+})
+
+
 
 
 export default router;
