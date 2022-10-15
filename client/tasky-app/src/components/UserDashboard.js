@@ -38,7 +38,19 @@ function UserDashboard() {
         
         
         <div class="container">
-  <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
+  {/* <h2>Responsive Tables Using LI Triggers</h2> */}
+  <center>
+  {/* <h1>User Dashboard</h1> */}
+
+      <br></br>
+  <form onsubmit="event.preventDefault();" role="search">
+  <input id="search" type="search" placeholder="Search..." autofocus required />
+  <button type="submit">Go</button>    
+</form>
+</center>
+
+
+
   <ul class="responsive-table">
     <li class="table-header">
       <div class="col col-1">Job Id</div>

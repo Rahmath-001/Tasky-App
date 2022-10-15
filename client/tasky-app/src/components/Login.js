@@ -106,7 +106,8 @@ function Login({ alert, showAlert }) {
               <br></br>
               <br></br>
 
-              <input type="submit" value="Login" />
+              {/* <input type="submit" value="Login" /> */}
+              <Link to="/user"><input type="submit" value="Login" /> </Link>
             </form>
           </div>
           <br></br> <br></br>

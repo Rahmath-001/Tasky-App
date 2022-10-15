@@ -99,7 +99,8 @@ function Register({alert,showAlert}){
 
                         <input type="password" id="lname" name="password2" autoComplete="off" placeholder="Confirm Password" value={password2} onChange={onChangeHandler} /><br />
                         
-                        <input type="submit" value="Register"  />
+                        {/* <input type="submit" value="Register"  /> */}
+                        <Link to="/login"><input type="submit" value="Register"  /> </Link>
                     </form>
                 </div>
                      <br></br> <br></br>
