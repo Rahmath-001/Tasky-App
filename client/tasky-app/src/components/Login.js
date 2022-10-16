@@ -4,6 +4,7 @@ import Header from "./Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./Navbar";
 
 function Login({ alert, showAlert }) {
     let navigate = useNavigate();
@@ -72,14 +73,48 @@ function Login({ alert, showAlert }) {
     return (
         <>
             <Header content={"User Login"} />
+            <NavBar/>
 
-      <div className="container">
+
+            <div class="login-box">
+        <h2>Login</h2>
+        {alert !== null && <h3 className={`alert-${alert.type}`} >{alert.msg}</h3>}
+      
+        <form  id="form" onSubmit={onSubmitHandler} >
+         
+
+          <div class="user-box">
+            <input type="email" id="lname" name="email" autoComplete="off"  value={email} onChange={onChangeHandler} />
+            <label>Email</label>
+          </div>
+
+          <div class="user-box">
+            <input type="password" id="lname" name="password" autoComplete="off"  value={password} onChange={onChangeHandler} />
+            <label>Password</label>
+          </div>
+
+
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            submit
+            {/* <Link to="/user">Submit </Link> */}
+          </a>
+        </form>
+      </div>
+
+
+
+
+      {/* <div className="container">
         {alert !== null && (
           <h3 className={`alert-${alert.type}`}>{alert.msg}</h3>
         )}
 
         <div id="body" className="body">
-          <h3> FORM FOR REGISTERING</h3>
+            <br></br>
           <div>
             <form id="form" onSubmit={onSubmitHandler}>
               <input
@@ -106,8 +141,7 @@ function Login({ alert, showAlert }) {
               <br></br>
               <br></br>
 
-              {/* <input type="submit" value="Login" /> */}
-              <Link to="/user"><input type="submit" value="Login" /> </Link>
+              <Link to="/user"><input type="login" value="Login" /> </Link>
             </form>
           </div>
           <br></br> <br></br>
@@ -116,7 +150,7 @@ function Login({ alert, showAlert }) {
           <br></br>
           <br></br>
         </div>
-      </div>
+      </div> */}
         </>
     )
 }

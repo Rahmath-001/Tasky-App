@@ -57,7 +57,7 @@ function App() {
     <>
     <Routes>
     
-    <Route path='/' element={<Main booksData={booksData} loading={loading}/>}/>
+    <Route path='/' element={<Main  loading={loading}/>}/>
 
       <Route path='/Register' element={<Register alert={alert} showAlert={showAlert}/>}></Route>
       <Route path='/login' element={<Login
