@@ -1,4 +1,5 @@
 import loading from "./assets/Loading.gif";
+import tick from "../components/assets/tick.png";
 
 function Loading() {
 

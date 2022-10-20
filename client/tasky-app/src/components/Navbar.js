@@ -17,7 +17,6 @@ function NavBar() {
   			<li><Link to={"/home"}>HOME</Link></li>
   			<li><Link to={"/register"}>REGISTER</Link></li>
   			<li><Link to={"/login"}>LOGIN</Link></li>
-  			<li><Link to={"/contact"}>Contact US</Link> </li>
   		</ul>
   	</nav>
      

@@ -6,7 +6,7 @@ function Footer({footerprop}){
         <>
 
         <div className="footer"> 
-        <h2>&copy; Copyrights Reserved -   Rahmathullah {footerprop}</h2>
+        <h2> &copy; Copyrights Reserved -   Rahmathullah {footerprop}</h2>
         </div>
         
         </>

@@ -2,11 +2,11 @@ import Header from "./Header";
 import NavBar from "./Navbar";
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Register({ alert, showAlert }) {
-  // const navigate= useNavigate();
+  const navigate= useNavigate();
 
   const [userData, setUserData] = useState({
     firstname: "",
@@ -36,7 +36,7 @@ function Register({ alert, showAlert }) {
         type: "success",
         msg: res.data.success,
       });
-      Navigate("/login")
+      navigate("/login")
     } catch (error) {
       if (error.response.data.errors) {
         let errorString = "";
@@ -45,7 +45,7 @@ function Register({ alert, showAlert }) {
         });
         showAlert({
           type: "error",
-          msg: errorString,
+          msg: errorString
         });
       } else {
         showAlert({
@@ -63,11 +63,14 @@ function Register({ alert, showAlert }) {
       <NavBar/>
 
       <div class="login-box">
-        <h2>Login</h2>
-        {alert !== null && <h3 className={`alert-${alert.type}`} >{alert.msg}</h3>}
+       
       
         <form  id="form" onSubmit={onSubmitHandler} >
-         
+        <h1 style={{ color: "#006E7F", fontFamily: "cursive", marginTop: "-10px" }}>Sign up</h1>
+
+        {alert !== null && <h3 className={`alert-${alert.type}`} >{alert.msg}</h3>}
+
+
           <div class="user-box">
           <input type="text" id="lname" name="firstname" autoComplete="off"  value={firstname} onChange={onChangeHandler} /><br/>
           <label>Firstname</label>

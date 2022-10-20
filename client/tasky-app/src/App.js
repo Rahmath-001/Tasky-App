@@ -28,17 +28,17 @@ function App() {
 
 
   useEffect(() => {
-    async function getTask() {
-      try {
-        setLoading(true);
-        let { data } = await axios.get("api/task");
-        setbooksData(data.booksData);
-        setLoading(false);
-      } catch (error) {
-        console.error(error.response.data);
-      }
-    }
-    getTask();
+    // async function getTask() {
+    //   try {
+    //     setLoading(true);
+    //     let { data } = await axios.get("api/task");
+    //     setbooksData(data.booksData);
+    //     setLoading(false);
+    //   } catch (error) {
+    //     console.error(error.response.data);
+    //   }
+    // }
+    // getTask();
   }, [])
 
    

@@ -23,11 +23,7 @@ function Login({ alert, showAlert }) {
     }
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            if (JSON.parse(localStorage.getItem("token").role == "admin")) {
-                navigate("/admin");
-            } else {
-                navigate("/user");
-            }
+          navigate("/user");
         }   
     }, [])
     const onSubmitHandler = async (e) => {
@@ -38,11 +34,7 @@ function Login({ alert, showAlert }) {
             let res = await axios.post("/api/login", userData);
             // console.log(res.data);
             localStorage.setItem("token", JSON.stringify({ token: res.data.token, role: res.data.role }))
-            // if (res.data.role == "admin") {
-            //     navigate("/admin");
-            // } else {
-            //     navigate("/user");
-            // }
+            navigate("/user")
             showAlert({
                 type: "success",
                 msg: res.data.success
@@ -84,12 +76,12 @@ function Login({ alert, showAlert }) {
          
 
           <div class="user-box">
-            <input type="email" id="lname" name="email" autoComplete="off"  value={email} onChange={onChangeHandler} />
+            <input type="email"  name="email" autoComplete="off"  value={email} onChange={onChangeHandler} />
             <label>Email</label>
           </div>
 
           <div class="user-box">
-            <input type="password" id="lname" name="password" autoComplete="off"  value={password} onChange={onChangeHandler} />
+            <input type="password"  name="password" autoComplete="off"  value={password} onChange={onChangeHandler} />
             <label>Password</label>
           </div>
 
@@ -99,7 +91,8 @@ function Login({ alert, showAlert }) {
             <span></span>
             <span></span>
             <span></span>
-            submit
+            {/* submit */}
+            <input type="submit" value="login" ></input>
             {/* <Link to="/user">Submit </Link> */}
           </a>
         </form>
