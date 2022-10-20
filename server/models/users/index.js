@@ -34,10 +34,10 @@ const userschema = new  mongoose.Schema({
     //         required: true
     //     }
     // },
-    passwordresettoken: {
-        type: String,
-        default: null
-    },
+    // passwordresettoken: {
+    //     type: String,
+    //     default: null
+    // },
     isSuspended: {
         type: Boolean,
         default: false

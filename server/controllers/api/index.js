@@ -3,6 +3,7 @@ import {loginvalidation, registervalidation, errormiddleware } from "../../middl
 import fs from "fs/promises";
 import bcrypt from "bcrypt";
 import config from "config";
+import jwt from "jsonwebtoken";
 
 
 import "../../dbconnect.js"
@@ -102,6 +103,36 @@ router.post("/signup",loginvalidation(),errormiddleware, async (req,res)=> {
         res.status(500).json({ "error": "Internal Server Error" })
     }
 })
+
+
+
+
+
+
+router.get("/auth", async (req, res) => {
+    try {
+        let token = req.headers["auth-token"];
+        if (!token) {
+            return res.status(401).json({ error: "Unauthorised Access" });
+        }
+        let privatekey = config.get("PRIVATE_KEY");
+        let payload = jwt.verify(token, privatekey);
+        res.status(200).json({ success: "Authentication Successful", payload });
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ error: "Unauthorised Access" });
+    }
+})
+
+
+
+
+
+
+
+
+
+
 
 
 router.get("/", (req,res)=> {
