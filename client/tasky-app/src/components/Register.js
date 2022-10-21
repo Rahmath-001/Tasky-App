@@ -66,8 +66,8 @@ function Register({ alert, showAlert }) {
        
       
         <form  id="form" onSubmit={onSubmitHandler} >
-        <h1 style={{ color: "#006E7F", fontFamily: "cursive", marginTop: "-10px" }}>Sign up</h1>
-
+        {/* <h1 style={{fontSize:"22px", color: "#006E7F", fontFamily: "cursive", marginTop: "-10px" }}>Sign up</h1> */}
+<h1 style={{fontSize:"45px" }}>Sign up</h1>
         {alert !== null && <h3 className={`alert-${alert.type}`} >{alert.msg}</h3>}
 
 

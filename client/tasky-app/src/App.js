@@ -3,7 +3,6 @@ import axios from 'axios'
 import Main from './components/Main';
 import Login from './components/Login';
 import { useState, useEffect } from 'react';
-import PrivateRoutes from './components/PrivateRoute';
 import UserDashboard from './components/UserDashboard.js'
 // import AdminDashboard from './components/AdminDashboard.js'
 
@@ -14,6 +13,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import EditTask from './components/EditTask';
+import AddTask from './components/AddTask';
 
 
 
@@ -65,6 +66,8 @@ function App() {
           showAlert={showAlert}
         />} />
         <Route path="/user" element={<UserDashboard />} />
+        <Route path="/editTask" element={<EditTask />} />
+        <Route path="/AddTask" element={<AddTask />} />
         
       </Routes>
     </>

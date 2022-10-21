@@ -6,15 +6,15 @@ function NavBar() {
      <>
      
      
-     <a href="https://github.com/Rahmath-001" class="logo" target="_blank">
+     <a href="/" className="logo" target="_blank">
 		<img className='image' src={logo} alt=""></img>
 	</a>
 
-  	<input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon"/>
-  	<label for="menu-icon"></label>
-  	<nav class="nav"> 		
-  		<ul class="pt-5">
-  			<li><Link to={"/home"}>HOME</Link></li>
+  	<input className="menu-icon" type="checkbox" id="menu-icon" name="menu-icon"/>
+  	<label htmlFor="menu-icon"></label>
+  	<nav className="nav"> 		
+  		<ul className="pt-5">
+  			<li><Link to={"/"}>HOME</Link></li>
   			<li><Link to={"/register"}>REGISTER</Link></li>
   			<li><Link to={"/login"}>LOGIN</Link></li>
   		</ul>

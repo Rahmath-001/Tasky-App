@@ -68,19 +68,19 @@ function Login({ alert, showAlert }) {
             <NavBar/>
 
 
-            <div class="login-box">
-        <h2>Login</h2>
+            <div className="login-box">
+        <h1 style={{fontSize:"45px"}}>Login</h1>
         {alert !== null && <h3 className={`alert-${alert.type}`} >{alert.msg}</h3>}
       
         <form  id="form" onSubmit={onSubmitHandler} >
          
 
-          <div class="user-box">
+          <div className="user-box">
             <input type="email"  name="email" autoComplete="off"  value={email} onChange={onChangeHandler} />
             <label>Email</label>
           </div>
 
-          <div class="user-box">
+          <div className="user-box">
             <input type="password"  name="password" autoComplete="off"  value={password} onChange={onChangeHandler} />
             <label>Password</label>
           </div>
