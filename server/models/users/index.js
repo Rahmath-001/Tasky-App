@@ -1,115 +1,66 @@
 import mongoose from "mongoose";
 
-const userschema = new  mongoose.Schema({
-  usertype : {
+//This is Main User Schema
+const userSchema = new mongoose.Schema({
+  firstname: {
     type: String,
-    default: "user"
-  } ,
-  
-  firstname:
-        {type : String,
-        required:true},
-    lastname: 
-        {type: String,
-        required:true},
-    email: 
-        {type: String,
-        required:true},
-    password: 
-        {type: String,
-        required:true},
-    // address: 
-    //     {type: String,
-    //     required:true},
-    // phone: 
-    //     {type: String,
-    //     required:true},  
-    // userverifytoken:{
-    //     email: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     phone: {
-    //         type: String,
-    //         required: true
-    //     }
-    // },
-    // passwordresettoken: {
-    //     type: String,
-    //     default: null
-    // },
-    isSuspended: {
-        type: Boolean,
-        default: false
-    }
-})
-
-
-const userModel= new mongoose.model("Users", userschema, "Users_DB")
-
-export default userModel
-
-
-
-
-
-
-
-
-
-
-
-// import mongoose from "mongoose";
-// const Schema = mongoose.Schema;
-// const tasks = new Schema({
-//   task_name: {
-//     type: String,
-//     required: true,
+    maxlength: 25,
+    minlength: 2,
+    required: true,
+  },
+  lastname: {
+    type: String,
+    maxlength: 25,
+    minlength: 2,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    maxlength: 500,
+  },
+//   userverified: {
+//     email: {
+//       type: Boolean,
+//       default: false,
+//     },
+//     phone: {
+//       type: Boolean,
+//       default: false,
+//     },
 //   },
-//   deadline: {
-//     type: Date,
-//     required: true,
+//   userverifytoken: {
+//     email: {
+//       type: String,
+//       required: true,
+//     },
+//     phone: {
+//       type: String,
+//       required: true,
+//     },
 //   },
-//   isCompleted: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   reminders: {
-//     type: [Date],
-//   },
-// });
-// const userSchema = new Schema({
-//   firstname: {
-//     type: String,
-//     required: true,
-//     maxlength: 25,
-//     minlength: 2,
-//   },
-//   lastname: {
-//     type: String,
-//     required: true,
-//     maxlength: 25,
-//     minlength: 2,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   phone: {
-//     type: String,
-//     required: true,
-//   },
-//   address: {
-//     type: String,
-//     required: true,
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//   },
-//   tasks: {
-//     type: [tasks],
-//   },
-// });
-// const userModel = new mongoose.model("Users", userSchema, "users_DB");
-// export default userModel;
+  // passwordresettoken: {
+  //     type: String,
+  //     default: null
+  // },
+  isSuspended: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const userModel = new mongoose.model("Users", userSchema, "users");
+
+export default userModel;

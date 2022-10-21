@@ -8,6 +8,7 @@ function authMiddleware(req, res, next) {
     try {
         const token = req.headers['auth-token'];
         const payload = jwt.verify(token, private_key);
+        console.log(payload)
         req.payload = payload;
         return next();
     } catch (error) {

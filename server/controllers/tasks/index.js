@@ -1,90 +1,55 @@
-import express  from "express";
+import express from "express";
 import authMiddleware from "../../middleware/auth/verifyToken.js";
 import { scheduleJob, scheduledJobs, cancelJob } from "node-schedule";
-import fs from "fs/promises";
-import jwt from 'jsonwebtoken'
 
-import { randomString, sendEmail, sendSMS } from "../../utils/index.js";
-import userModel from "../../models/users/index.js";
-import taskmodel from "../../models/tasks/index.js";
-// import randomString from "../../utils/";
-// import sendEmail from "../utils/sendMail.js";
-// import sendSMS from "../utils/sendSMS.js";
+import { sendEmail, sendSMS } from "../../utils/index.js";
+
+import Tasks from "../../models/Tasks/index.js";
+import { errorMiddleware, scheduleTaskValidation, editTaskValidation } from "../../middleware/validation/index.js";
+
+const router = express.Router();
 
 
-const router=express.Router();
 
 
-router.post("/task", authMiddleware, async (req,res)=> {
-   try {
-
-        //Check for Authorization 
-        // let token = req.headers["auth-token"];
-        // if (!token) {
-        //     return res.status(401).json({ error: "Unauthorised Access" });
-        // }
-        const payload = req.payload;
-        // console.log(payload);
-        if (!payload) {
-            return res.status(401).json({ error: "Unauthorised Access" });
-        }
-
-        //Check Req.body
-
-        let { task_name, deadline } = req.body;
-        if (!task_name || !deadline) {
-            return res.status(400).json({ error: "Some Fields are Missing" });
-        }
-
-        //    console.log(task_name, deadline);
 
 
-        let utc_deadline = new Date(deadline);
-        //Check if format is Right or Not
-        //Check if its Backdated or Not
 
-        let present_time = new Date();
-        // console.log(present_time);
-        // console.log(utc_deadline < present_time);
+router.post("/", authMiddleware, scheduleTaskValidation(), errorMiddleware, async (req, res) => {
+  try {
 
-        if (utc_deadline == "Invalid Date" || (utc_deadline < present_time)) {
-            return res.status(400).json({ error: "Invalid Date Entered" });
-        }
-        // console.log(utc_deadline);
+    const payload = req.payload;
+    // console.log(payload);
+    if (!payload) {
+      return res.status(401).json({ error: "Unauthorised Access" });
+    }
 
-        //Check Validation for 30 mins and 30 Days
-        let difference = utc_deadline - present_time;
+    //Check Req.body
+    let { taskname, deadline } = req.body;
 
+    let present_time = new Date();
+    // console.log(present_time);
 
-        //Difference in Minutes
-        let mins = difference / (1000 * 60)
-        // console.log(mins);
+    //Check Validation for 30 mins and 30 Days
+    let difference = new Date(deadline) - present_time;
+    // console.log(difference);
 
-        let days = difference / (1000 * 60 * 60 * 24);
-        // console.log(days);
+    //Get Reminders
+    let reminders = [];
 
-        //Not Less than 30 mins and Not more than 30 Days
-        if (mins < 30 || days > 30) {
-            return res.status(400).json({ error: "Invalid Date Entered, Deadline Should be More than 30 mins and Less than 30 Days" });
-        }
+    let reminder1 = new Date(+present_time + difference / 4);
+    // console.log(reminder1);
 
-        //Get Reminders
-        let reminders = [];
+    let reminder2 = new Date(+present_time + difference / 2);
+    // console.log(reminder2);
 
-        let reminder1 = new Date((+present_time) + (difference / 4));
-        // console.log(reminder1);
+    let reminder3 = new Date(+present_time + difference / (4 / 3));
+    // console.log(reminder3);
 
-        let reminder2 = new Date((+present_time) + (difference / 2));
-        // console.log(reminder2);
+    reminders.push(reminder1, reminder2, reminder3, new Date(deadline));
+    // console.log(reminders);
 
-        let reminder3 = new Date((+present_time) + (difference / (4 / 3)));
-        // console.log(reminder3);
-
-        reminders.push(reminder1, reminder2, reminder3, utc_deadline);
-        // console.log(reminders);
-
-
-        let taskData = await Tasks.findOne({ user:payload.user_id }).populate("user",["firstname", "phone", "email"]);
+    let taskData = await Tasks.findOne({ user: payload.user_id }).populate("user", ["firstname", "phone", "email"]);
     // console.log(taskData);
 
     let task_data = {
@@ -126,95 +91,144 @@ router.post("/task", authMiddleware, async (req,res)=> {
       });
     })
 
-    res.status(200).json({success :"Task was Added"})
-   } catch (error) {
-    console.error(error)
-    res.status(500).json({error :"Internal Server Error"})
-   }
-})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
 
 
 
 
-router.get("/tasks",authMiddleware ,async (req,res)=>{
-    try {
-        const payload= req.body;
-
-        let taskData = await taskmodel.findOne({user:payload.user_id});
-        console.log(taskData)
-
-        res.status(200).json({tasks:taskData.tasks})
-       } catch (error) {
-        res.status(500).json({error :"Interval Server Error"})
-       }
-})
 
 
 
 
-router.get("/:task_id", authMiddleware, async (req,res)=>{
-    try {
-        const payload= req.body;
-        // console.log(req.params.task_id)
-
-        let taskData = await taskmodel.findOne({user:payload.user_id});
-        // console.log(taskData)
-
-        let taskFound= taskData.tasks.find((ele)=> ele._id == req.params.task_id)
-        console.log(taskFound)
-
-        if (!taskFound) {
-            res.status(404).json({ "error": "Task Not Found" });
-          }
-
-        res.status(200).json({success :"TASK Found", task:taskFound})
-       } catch (error) {
-        res.status(500).json({error :"Interval Server Error"})
-       }
-})
 
 
 
-router.delete("/:task_id", authMiddleware,async (req, res) => {
-    try {
 
-        const payload= req.body;
-        console.log(req.params.task_id)
 
-        let taskData = await taskmodel.findOne({user:payload.user_id});
-        // console.log(taskData);
 
-        let taskIndex= taskData.tasks.findIndex((ele)=> ele._id == req.params.task_id);
-        // console.log(taskIndex);
-        // console.log(taskData.tasks[taskIndex])
 
-        taskData.tasks[taskIndex].reminders.forEach((ele,i)=>{
-            cancelJob(`${taskData.tasks[taskIndex]._id}_${i}`)
-        })
 
-     
-        taskData.tasks.splice(taskIndex,1);
 
-        await taskData.save()
 
-        res.status(200).json({ success: "Task is Deleted successfully" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Interval Server Error" });
+
+router.get("/tasks", authMiddleware, async (req, res) => {
+  try {
+    const payload = req.payload
+    // console.log(payload);
+    let alltasks = await Tasks.findOne({ user: payload.user_id })
+    // console.log(alltasks);
+    res.status(200).json({ success: "Tasks Found", alltasks });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Interval Server Error" });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get("/:task_id", authMiddleware, async (req, res) => {
+  try {
+    const payload = req.payload;
+    // console.log(req.params.task_id);
+
+    let taskData = await Tasks.findOne({ user: payload.user_id });
+    // console.log(taskData);
+
+    let taskFound = taskData.tasks.find((ele) => ele._id == req.params.task_id);
+    // console.log(taskFound);
+
+    if (!taskFound) {
+      res.status(404).json({ "error": "Task Not Found" });
     }
+
+    res.status(200).json({ success: "Task Found", task: taskFound });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ "error": "Interval Server Error" });
+  }
 })
 
 
 
-router.put("/:task_id",authMiddleware,async (req,res)=>{
 
 
-    try {
-        let task_id = req.params.task_id;
+
+
+
+
+
+
+
+
+router.delete("/:task_id", authMiddleware, async (req, res) => {
+  try {
+    // console.log(scheduleJob);
 
     const payload = req.payload;
+
+    let taskData = await Tasks.findOne({ user: payload.user_id });    // .populate("user");
+    // console.log(taskData);
+
+    let taskIndex = taskData.tasks.findIndex((ele) => ele._id == req.params.task_id);
+    // console.log(taskIndex);
+    // console.log(taskData.tasks[taskIndex]);
+
+    if (taskIndex == -1) {
+      return res.status(404).json({ "error": "Task Not Found" });
+    }
+
+    taskData.tasks[taskIndex].reminders.forEach((ele, i) => {
+      cancelJob(`${taskData.tasks[taskIndex]._id}_${i}`)
+    });
+
+    // Delete Task with Given Index from The Task Array:-
+    taskData.tasks.splice(taskIndex, 1);
+
+    // console.log(scheduleJob);
+    await taskData.save();
+
+    res.status(200).json({ success: "Task Deleted Successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Interval Server Error" });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+router.put("/:task_id", authMiddleware, editTaskValidation(), errorMiddleware, async (req, res) => {
+  try {
+    let task_id = req.params.task_id;
+
+    const payload = req.payload;
+    // console.log(payload);
     if (!payload) {
       return res.status(401).json({ error: "Unauthorised Access" });
     }
@@ -244,14 +258,16 @@ router.put("/:task_id",authMiddleware,async (req,res)=>{
     // console.log(reminders);
 
     let taskData = await Tasks.findOne({ user: payload.user_id }).populate("user", ["firstname", "email", "phone"]);
-    let taskFound = taskData.tasks.find((ele) => ele._id == req.params.task_id);
-    // console.log(taskFound);
+    // console.log("Line 208",taskData.tasks);
+    // console.log(task_id);
+    let taskFound = taskData.tasks.find((ele) => ele._id.toString() == task_id);
+    // console.log("Line 211",taskFound);
 
     if (!taskFound) {
       res.status(404).json({ "error": "Task Not Found" });
     }
-    // console.log(taskFound._id);
-
+    // console.log("Line 216",taskFound._id);
+    console.log("Line 217",taskFound.reminders);
     taskFound.reminders.forEach((ele, i) => {
       cancelJob(`${taskFound._id}_${i}`)
     })
@@ -279,7 +295,7 @@ router.put("/:task_id",authMiddleware,async (req,res)=>{
                             Your deadline for  ${taskname} has been passed. <br>
                             <b>CFI Tasky App</b>
                             </p>`,
-              });
+            });
           } else {
             sendEmail({
               subject: `This is a Reminder for your Task ${taskname}`,
@@ -293,17 +309,10 @@ router.put("/:task_id",authMiddleware,async (req,res)=>{
         });
       })
     }
-
-        res.status(200).json({ success: "Task is Deleted successfully" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Interval Server Error" });
-    }
-
-
-})
-
-
-
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 export default router;

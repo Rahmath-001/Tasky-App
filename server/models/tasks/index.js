@@ -1,23 +1,31 @@
 import mongoose from "mongoose";
 
-let taskschema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
-  },
-  tasks: [
-    {
-      task_name: { type: String, required: true },
-      deadline: { type: Date, required: true },
-      isCompleted: { type: Boolean, default: false },
-      reminders: {
-        type: [Date],
-        required: true,
-      },
+let taskSchema = new mongoose.Schema({
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Users"
     },
-  ],
-});
+    tasks: [
+        {
+            taskname: {
+                type: String,
+                required: true
+            },
+            deadline: {
+                type: Date,
+                required: true
+            },
+            reminders: {
+                type: [Date],
+                required: true,
+                // maxlength: 4
+            },
+            isCompleted: {
+                type: Boolean,
+                default: false
+            }
+        }
+    ]
+})
 
-const taskmodel = new mongoose.model("Tasks", taskschema, "Users_Tasks");
-
-export default taskmodel;
+export default mongoose.model("Tasks", taskSchema, "usertasks");

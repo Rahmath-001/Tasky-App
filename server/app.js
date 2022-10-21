@@ -1,10 +1,10 @@
 import express from "express";
 import router from "./controllers/api/index.js";
 import taskRouter from "./controllers/tasks/index.js"
-import userModel from "./models/users/index.js";
+import userModel from "./models/Users/index.js";
 // import  util from "util";
 import "./dbconnect.js"
-import taskmodel from "./models/tasks/index.js";
+import taskmodel from "./models/Tasks/index.js";
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.get("/", (req,res)=> {
 })
 
 app.use("/api",router)
-app.use("/api",taskRouter)
+app.use("/api/task",taskRouter)
 
 
 // app.get("/api/")

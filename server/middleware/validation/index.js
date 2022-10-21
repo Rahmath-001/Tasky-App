@@ -1,14 +1,13 @@
-import {body,validationResult} from "express-validator";
+import { body, validationResult } from "express-validator";
 
-
-function loginvalidation(){
-    return[
-        body('email', 'Email is Required').isEmail(),
-        body('password', 'password is Required').notEmpty(),        
+function loginValidation() {
+    return [
+        body('email', "Email Is Required").isEmail(),
+        body('password', "Passowrd is Required").notEmpty()
     ]
 }
 
-function registervalidation() {
+function registerValidation() {
     return [
         body('firstname', "First Name is Required").notEmpty().isLength({ max: 30 }),
         body('lastname', "Lastname is Required ").notEmpty().isLength({ max: 30 }),
@@ -27,49 +26,39 @@ function registervalidation() {
     ]
 }
 
-
-function scheduletaskvalidation(){
-    return [
-        body("taskname", "task name cannot be empty").notEmpty(),
-        body("deadline").custom(value =>{
-
-            if(new Date(value)== "Invalid Date")
-            throw new Error("Invalid Date Entered")
-                let deadline= new Date(value);
-                let min=(deadline - new Date()) / (1000 * 60) 
-                let days=(deadline - new Date()) / (1000 * 60 * 60 * 24)
-            if(min<30 || days>30){
-                throw new Error("Inavlid Date Entered, Deadline must be more than 30 min and less than 30 days.")
+function scheduleTaskValidation(){
+    return[
+        body("taskname","Task Cannot be Empty").notEmpty(),
+        body("deadline").custom(value => {
+            if(new Date(value)=="Invalid Date") {
+                throw new Error("Invalid Date Entered")
             }
-            else{
-                throw true;
+            let deadline = new Date(value);
+            let mins = (deadline - new Date()) / (1000 * 60);
+            let days = (deadline - new Date())/ (1000 * 60 * 60 * 24);
+            if(mins < 30 || days > 30) {
+                throw new Error("Invalid Date Entered, Deadline Should be More than 30 mins and Less than 30 Days")
+            } else {
+                return true;
             }
         })
-
     ]
 }
 
-
-
-function editTaskvalidation (){
-    const rules = scheduletaskvalidation()
-
-    return [
+function editTaskValidation() {
+    const rules = scheduleTaskValidation()
+    return[
         ...rules,
-        body("isCompleted", "isCompleted cannot be empty and should be boolean").isBoolean(),
+        body("isCompleted","is Completed cannot be Empty and should be a Boolean").isBoolean()
     ]
 }
 
-
-
-
-
-function errormiddleware(req,res,next){
-    const errors= validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()})
+function errorMiddleware(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
     return next();
 }
 
-export {loginvalidation, registervalidation, errormiddleware,scheduletaskvalidation}
+export { loginValidation, registerValidation, scheduleTaskValidation, editTaskValidation, errorMiddleware }
