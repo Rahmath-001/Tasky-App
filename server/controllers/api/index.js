@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import config from "config";
 import jwt from "jsonwebtoken";
 
-import userModel from "../../models/Users/index.js";
+import userModel from "../../models/users/index.js";
 import Tasks from "../../models/Tasks/index.js";
 
 import generateToken from "../../middleware/auth/generateToken.js";
@@ -75,12 +75,11 @@ router.post("/signup", registerValidation(), errorMiddleware, async (req, res) =
         let { firstname, lastname, email, password, password2, address, phone } = req.body;
 
         // //Basic Validations
-        if (!firstname || !lastname || !email ||  !phone || !password || !password2 || !address ) {
-            return res.status(400).json({ "error": "Some Fields Are Missing " });
-        }
-        if (password !== password2) {
-            return res.status(400).json({ "error": "Passwords are Not Same" });
-        }
+        // if (!firstname || !lastname || !email ||  !phone || !password || !password2 || !address ) {
+        //     return res.status(400).json({ "error": "Some Fields Are Missing " });
+        // }
+        // if (
+            
 
         //Check Duplication of Email & Mobile
         let Gotmail = await userModel.findOne({ email })
@@ -99,18 +98,18 @@ router.post("/signup", registerValidation(), errorMiddleware, async (req, res) =
         let userData = req.body
         // console.log(userData);
 
-        userData.userverified = {
-            phone: false, 
-            email: false 
-        }
+        // userData.userverified = {
+        //     phone: false, 
+        //     email: false 
+        // }
 
         let phoneToken = randomString(10)
         let emailToken = randomString(10)
 
-        userData.userverifytoken = {
-            email: emailToken,
-            phone: phoneToken
-        }
+        // userData.userverifytoken = {
+        //     email: emailToken,
+        //     phone: phoneToken
+        // }
 
         const allusers = new userModel(userData)
 
@@ -121,18 +120,18 @@ router.post("/signup", registerValidation(), errorMiddleware, async (req, res) =
 
         await alltasks.save();
 
-        await sendEmail({
-            subject: "This is a dummy Subject",
-            to: userData.email,
-            html: `<p>Hi ${userData.firstname}, <br>
-            			<b>Please Click on this link to verify. ${config.get("URL")}/api/verify/email/${emailToken}</b>
-            			</p>`,
-        })
+        // await sendEmail({
+        //     subject: "This is a dummy Subject",
+        //     to: userData.email,
+        //     html: `<p>Hi ${userData.firstname}, <br>
+        //     			<b>Please Click on this link to verify. ${config.get("URL")}/api/verify/email/${emailToken}</b>
+        //     			</p>`,
+        // })
 
-        await sendSMS({
-            body: `Thank you for Signing Up. Please click on the given link to verify your phone. ${config.get("URL")}/api/verify/mobile/${phoneToken}`,
-            to: phone
-        });
+        // await sendSMS({
+        //     body: `Thank you for Signing Up. Please click on the given link to verify your phone. ${config.get("URL")}/api/verify/mobile/${phoneToken}`,
+        //     to: phone
+        // });
 
         res.status(200).json({ success: "User Signed Up Succesfully" });
     } catch (error) {

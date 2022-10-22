@@ -1,7 +1,7 @@
 import express from "express";
 import router from "./controllers/api/index.js";
 import taskRouter from "./controllers/tasks/index.js"
-import userModel from "./models/Users/index.js";
+import userModel from "./models/users/index.js";
 // import  util from "util";
 import "./dbconnect.js"
 import taskmodel from "./models/Tasks/index.js";

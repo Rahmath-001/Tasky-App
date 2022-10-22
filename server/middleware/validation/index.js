@@ -22,7 +22,7 @@ function registerValidation() {
                 }
             }
         ),
-        body('phone', "Mobile Phone is Invalid").isMobilePhone(),
+        body('phone', "Mobile Phone is Invalid").notEmpty(),
     ]
 }
 
