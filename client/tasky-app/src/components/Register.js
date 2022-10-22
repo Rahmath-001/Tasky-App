@@ -14,9 +14,10 @@ function Register({ alert, showAlert }) {
     email: "",
     password: "",
     password2: "",
+    phone: "",
   });
 
-  const { firstname, lastname, email, password, password2 } = userData;
+  const { firstname, lastname, email, password, password2 ,phone} = userData;
 
   const onChangeHandler = (e) => {
     setUserData({
@@ -84,6 +85,11 @@ function Register({ alert, showAlert }) {
           <div class="user-box">
             <input type="email" id="lname" name="email" autoComplete="off"  value={email} onChange={onChangeHandler} />
             <label>Email</label>
+          </div>
+
+          <div class="user-box">
+          <input type="tel" id="phone" name="phone" autoComplete="off"  value={phone} onChange={onChangeHandler} /><br/>
+          <label>Phone</label>
           </div>
 
           <div class="user-box">
