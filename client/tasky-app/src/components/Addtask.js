@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from "./Navbar";
+
 
 function AddTask({alert, showAlert}) {
 
@@ -61,8 +63,11 @@ function AddTask({alert, showAlert}) {
     }
     return (
         <>
-            <center><h1>Add Task</h1>
+
+        <NavBar/>
+        <center>
             <div className="login-box">
+           <h1 style={{fontSize:"45px"}}>Add Task</h1>
                 <form onSubmit={onSubmitHandler}>
                     <input type="text" id="taskname" name="taskname" placeholder="Task Name" value={taskname} onChange={onChangeHandler} required /> <br />
                     <input type="datetime-local" id="deadline" name="deadline" placeholder="DeadLine" value={deadline} onChange={onChangeHandler} required /><br /><br />

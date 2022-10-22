@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Header from "./Header";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import NavBar from "./Navbar";
 
 function EditTask() {
   const navigate = useNavigate();
@@ -47,10 +48,15 @@ function EditTask() {
   return (
     <>
     <Header/>
-      <center>
-        <h1 style={{fontsize:"10px"}}>Edit Task</h1>
-        <br/><br/>
+    <NavBar/>
+  
+   
+      
+        <br/><br/><br></br><br></br>
+        
+        <center>
         <div className="login-box">
+        <h1 style={{fontSize:"45px"}}>Edit Task</h1>
         <form onSubmit={onSubmitHandler} id="form">
           <div className="user-box">
             <input
@@ -96,8 +102,8 @@ function EditTask() {
             <span></span>
             <span></span>
             {/* submit */}
-            <input type="submit" value="Edit task"></input>
-            {/* <Link to="/user">Submit </Link> */}
+            {/* <input type="submit" value="Edit task"></input> */}
+            <Link to="/user">Submit </Link>
           </a>
 
           {/* <input type="submit" value="Edit Task" /> */}

@@ -2,6 +2,10 @@ import {Link} from 'react-router-dom'
 import logo from "./assets/task-app-logo.png"
 
 function NavBar() {
+
+	function logout(){
+		localStorage.removeItem("token")
+	}
     return (
      <>
      
@@ -17,6 +21,8 @@ function NavBar() {
   			<li><Link to={"/"}>HOME</Link></li>
   			<li><Link to={"/register"}>REGISTER</Link></li>
   			<li><Link to={"/login"}>LOGIN</Link></li>
+			  <li><Link onClick={logout} to={"/login"}>LOGOUT</Link></li>
+
   		</ul>
   	</nav>
      

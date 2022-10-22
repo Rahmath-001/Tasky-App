@@ -633,6 +633,16 @@ td button:hover{
 
 
 
+.add-task{
+  text-decoration: none;
+  color: #000000;
+  background-color: #03e9f4;
+  border-radius: 5px;
+border: 2px solid white;
+padding: 5px;
+box-shadow: #006E7F;
+}
+
 
 
 tag{
