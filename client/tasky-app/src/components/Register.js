@@ -109,7 +109,7 @@ function Register({ alert, showAlert }) {
             <span></span>
             <span></span>
             {/* register */}
-            <input type="submit" value="Register" ></input>
+            <input type="submit" value="Register" className="input" ></input>
           </a>
         </form>
       </div>

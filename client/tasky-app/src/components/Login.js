@@ -92,7 +92,7 @@ function Login({ alert, showAlert }) {
             <span></span>
             <span></span>
             {/* submit */}
-            <input type="submit" value="login" ></input>
+            <input type="submit" value="login" className="input" ></input>
             {/* <Link to="/user">Submit </Link> */}
           </a>
         </form>

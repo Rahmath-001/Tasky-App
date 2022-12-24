@@ -421,6 +421,7 @@ h1{
               0 0 100px #03e9f4;
 }
 
+
 .login-box a span {
   position: absolute;
   display: block;
@@ -434,6 +435,54 @@ h1{
   background: linear-gradient(90deg, transparent, #03e9f4);
   animation: btn-anim1 1s linear infinite;
 }
+
+
+
+
+
+
+
+
+
+
+.input {
+  position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    color: #03e9f4;
+    background-color: rgb(90 90 90 / 33%);;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 10px;
+    letter-spacing: 4px;
+}
+
+
+
+
+
+.input:hover{
+  background: #03e9f4;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+              0 0 25px #03e9f4,
+              0 0 50px #03e9f4,
+              0 0 100px #03e9f4;
+}
+
+
+
+
+
+
+
+
+
+
 
 @keyframes btn-anim1 {
   0% {
