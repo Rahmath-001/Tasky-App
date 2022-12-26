@@ -67,33 +67,33 @@ router.post("/", authMiddleware, scheduleTaskValidation(), errorMiddleware, asyn
     let job_id = taskData.tasks[taskData.tasks.length - 1]._id.toString();
     // console.log(job_id);
 
-    task_data.reminders.forEach((ele, i) => {
-      scheduleJob(`${job_id}_${i}`, ele, () => {
-        if (reminders.length - 1 == i) {
-          sendEmail({
-            subject: `This is a Deadline Reminder for your Task ${task_data.taskname}`,
-            to: taskData.user.email,
-            html: `<p>Hi ${taskData.user.firstname}, <br>
-            			Your deadline for  ${taskname} has been passed. <br>
-            			<b>CFI Tasky App</b>
-            			</p>`,
-          });
-        } else {
-          sendEmail({
-            subject: `This is a Reminder for your Task ${task_data.taskname}`,
-            to: taskData.user.email,
-            html: `<p>Hi ${taskData.user.firstname}, <br>
-            			This is a Reminder - ${i + 1} to Complete your Task ${taskname} <br>
-            			<b>CFI Tasky App</b>
-            			</p>`,
-          });
-        }
-      });
-    })
+    // task_data.reminders.forEach((ele, i) => {
+    //   scheduleJob(`${job_id}_${i}`, ele, () => {
+    //     if (reminders.length - 1 == i) {
+    //       sendEmail({
+    //         subject: `This is a Deadline Reminder for your Task ${task_data.taskname}`,
+    //         to: taskData.user.email,
+    //         html: `<p>Hi ${taskData.user.firstname}, <br>
+    //         			Your deadline for  ${taskname} has been passed. <br>
+    //         			<b>CFI Tasky App</b>
+    //         			</p>`,
+    //       });
+    //     } else {
+    //       sendEmail({
+    //         subject: `This is a Reminder for your Task ${task_data.taskname}`,
+    //         to: taskData.user.email,
+    //         html: `<p>Hi ${taskData.user.firstname}, <br>
+    //         			This is a Reminder - ${i + 1} to Complete your Task ${taskname} <br>
+    //         			<b>CFI Tasky App</b>
+    //         			</p>`,
+    //       });
+    //     }
+    //   });
+    // })
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+   return  res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -123,10 +123,10 @@ router.get("/tasks", authMiddleware, async (req, res) => {
     // console.log(payload);
     let alltasks = await Tasks.findOne({ user: payload.user_id })
     // console.log(alltasks);
-    res.status(200).json({ success: "Tasks Found", alltasks });
+    return res.status(200).json({ success: "Tasks Found", alltasks });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Interval Server Error" });
+    return res.status(500).json({ error: "Interval Server Error" });
   }
 });
 
@@ -149,20 +149,21 @@ router.get("/:task_id", authMiddleware, async (req, res) => {
     const payload = req.payload;
     // console.log(req.params.task_id);
 
-    let taskData = await Tasks.findOne({ user: payload.user_id });
-    // console.log(taskData);
+    let taskData = await Tasks.findOne({ user: payload.user_id});
+    console.log(taskData);
 
-    let taskFound = taskData.tasks.find((ele) => ele._id == req.params.task_id);
-    // console.log(taskFound);
+    let taskFound= taskData.tasks.find((ele) => ele._id == req.params.task_id);
+    console.log(taskFound);
 
     if (!taskFound) {
-      res.status(404).json({ "error": "Task Not Found" });
+      return res.status(404).json({ "error": "Task Not Found" });
     }
 
-    res.status(200).json({ success: "Task Found", task: taskFound });
+    return res.status(200).json({ success: "Task Found", task: taskFound });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ "error": "Interval Server Error" });
+    return res.status(500).json({ "error": "Interval Server Error" });
+
   }
 })
 
@@ -202,13 +203,13 @@ router.delete("/:task_id", authMiddleware, async (req, res) => {
     // Delete Task with Given Index from The Task Array:-
     taskData.tasks.splice(taskIndex, 1);
 
-    // console.log(scheduleJob);
+    console.log(scheduleJob);
     await taskData.save();
 
-    res.status(200).json({ success: "Task Deleted Successfully" });
+   return res.status(200).json({ success: "Task Deleted Successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Interval Server Error" });
+    return res.status(500).json({ error: "Interval Server Error" });
   }
 });
 
@@ -281,34 +282,34 @@ router.put("/:task_id", authMiddleware, editTaskValidation(), errorMiddleware, a
 
     // Save To DB
     await taskData.save();
-    res.status(200).json({ success: "Reminder Has Been Edited" });
+    return res.status(200).json({ success: "Reminder Has Been Edited" });
 
-    if (isCompleted == false) {
-      let job_id = taskFound._id.toString();
-      reminders.forEach((ele, i) => {
-        scheduleJob(`${job_id}_${i}`, ele, () => {
-          if (reminders.length - 1 == i) {
-            sendEmail({
-              subject: `This is a Deadline Reminder for your Task ${taskname}`,
-              to: taskData.user.email,
-              html: `<p>Hi ${taskData.user.firstname}, <br>
-                            Your deadline for  ${taskname} has been passed. <br>
-                            <b>CFI Tasky App</b>
-                            </p>`,
-            });
-          } else {
-            sendEmail({
-              subject: `This is a Reminder for your Task ${taskname}`,
-              to: taskData.user.email,
-              html: `<p>Hi ${taskData.user.firstname}, <br>
-                            This is a Reminder - ${i + 1} to Complete your Task ${taskname} <br>
-                            <b>CFI Tasky App</b>
-                            </p>`,
-            });
-          }
-        });
-      })
-    }
+    // if (isCompleted == false) {
+    //   let job_id = taskFound._id.toString();
+    //   reminders.forEach((ele, i) => {
+    //     scheduleJob(`${job_id}_${i}`, ele, () => {
+    //       if (reminders.length - 1 == i) {
+    //         sendEmail({
+    //           subject: `This is a Deadline Reminder for your Task ${taskname}`,
+    //           to: taskData.user.email,
+    //           html: `<p>Hi ${taskData.user.firstname}, <br>
+    //                         Your deadline for  ${taskname} has been passed. <br>
+    //                         <b>CFI Tasky App</b>
+    //                         </p>`,
+    //         });
+    //       } else {
+    //         sendEmail({
+    //           subject: `This is a Reminder for your Task ${taskname}`,
+    //           to: taskData.user.email,
+    //           html: `<p>Hi ${taskData.user.firstname}, <br>
+    //                         This is a Reminder - ${i + 1} to Complete your Task ${taskname} <br>
+    //                         <b>CFI Tasky App</b>
+    //                         </p>`,
+    //         });
+    //       }
+    //     });
+    //   })
+    // }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });

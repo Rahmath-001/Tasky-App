@@ -1,9 +1,9 @@
 import twilio from 'twilio';
 import config from "config";
 
-const { TWILIO_SID, TWILIO_TOKEN, TWILIO_NUMBER } = config.get("SEND_SMS");
+const { TWILIO_ID, TWILIO_TOKEN, TWILIO_NUMBER } = config.get("SEND_SMS");
 
-const accountSid = TWILIO_SID;
+const accountSid = TWILIO_ID;
 const authToken = TWILIO_TOKEN;
 const client = new twilio(accountSid, authToken);
 
